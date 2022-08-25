@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WampSharp.RawSocket</name>
+    </assembly>
+    <members>
+        <member name="M:WampSharp.RawSocket.Handshake.#ctor(System.Byte,WampSharp.RawSocket.SerializerType)">
+            <summary>
+            Creates a new instance of a <see cref="T:WampSharp.RawSocket.Handshake"/>.
+            </summary>
+            <param name="maxLength">The max length to send. 0 for 2^9, 1 for 2^10, ..., 15 for 2^24</param>
+            <param name="serializerType">The serializer type.</param>
+        </member>
+        <member name="P:WampSharp.RawSocket.RawSocketClientConnection`1.MaxLength">
+            <summary>
+            Gets or sets the requested max length of a message to be received.
+            0 => 2^9 bytes
+            1 => 2^10 bytes
+            ...
+            15 => 2^24 bytes
+            </summary>
+        </member>
+        <member name="T:WampSharp.RawSocket.RawSocketTransport">
+            <summary>
+            A RawSocket <see cref="T:WampSharp.V2.Binding.Transports.IWampTransport"/> implementation.
+            </summary>
+        </member>
+        <member name="M:WampSharp.RawSocket.RawSocketTransport.#ctor(System.Net.Sockets.TcpListener,WampSharp.RawSocket.ServerSslConfiguration,System.Nullable{System.TimeSpan},System.Byte)">
+            <summary>
+            Creates a new instance of <see cref="T:WampSharp.RawSocket.RawSocketTransport"/>.
+            </summary>
+            <param name="listener">The <see cref="T:System.Net.Sockets.TcpListener"/> to use.</param>
+            <param name="sslConfiguration">The <see cref="T:WampSharp.RawSocket.SslConfiguration"/> to use for SSL security options.</param>
+            <param name="autoPingInterval">The auto pings send interval.</param>
+            <param name="maxSize">The max message size to receive.</param>
+        </member>
+        <member name="M:WampSharp.V2.Fluent.RawSocketChannelFactoryExtensions.RawSocketTransport(WampSharp.V2.Fluent.ChannelFactorySyntax.IRealmSyntax,System.String,System.Int32)">
+            <summary>
+            Indicates that the user wants to use RawSocket transport.
+            </summary>
+            <param name="realmSyntax">The current fluent syntax state.</param>
+            <param name="address">The address of the listening router</param>
+            <param name="port">The port of the listening router</param>
+        </member>
+        <member name="M:WampSharp.V2.Fluent.RawSocketChannelFactoryExtensions.RawSocketTransport(WampSharp.V2.Fluent.ChannelFactorySyntax.IRealmSyntax,System.Net.IPAddress[],System.Int32)">
+            <summary>
+            Indicates that the user wants to use RawSocket transport.
+            </summary>
+            <param name="realmSyntax">The current fluent syntax state.</param>
+            <param name="addresses">The addresses of the listening router</param>
+            <param name="port">The port of the listening router</param>
+        </member>
+        <member name="M:WampSharp.V2.Fluent.RawSocketChannelFactoryExtensions.RawSocketTransport(WampSharp.V2.Fluent.ChannelFactorySyntax.IRealmSyntax,System.Net.IPAddress,System.Int32)">
+            <summary>
+            Indicates that the user wants to use RawSocket transport.
+            </summary>
+            <param name="realmSyntax">The current fluent syntax state.</param>
+            <param name="address">The address of the listening router</param>
+            <param name="port">The port of the listening router</param>
+        </member>
+    </members>
+</doc>

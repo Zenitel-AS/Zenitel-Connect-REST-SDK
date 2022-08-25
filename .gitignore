@@ -1,0 +1,13 @@
+.vs
+
+LogManager/bin/
+LogManager/obj/
+
+WampClient/bin/
+WampClient/obj/
+
+RestApiClient/bin/
+RestApiClient/obj/
+
+ZenitelConnectRestApiSdk/bin/
+ZenitelConnectRestApiSdk/obj/
