@@ -6,26 +6,26 @@ namespace Wamp.Client
     // interface of WAMP services
     internal interface IConnectWampServices
     {
-        [WampProcedure(WampConnection.GetWampRegisteredDevices)]
+        [WampProcedure(WampClient.GetWampRegisteredDevices)]
         object SystemDevicesRegistered();
 
 
-        [WampProcedure(WampConnection.GetWampInterfaceList)]
+        [WampProcedure(WampClient.GetWampInterfaceList)]
         object InterfaceList();
 
-        [WampProcedure(WampConnection.GetWampCalls)]
+        [WampProcedure(WampClient.GetWampCalls)]
         object GET_calls(string dirNo, string callId, string state);
 
 
-        [WampProcedure(WampConnection.GetWampQueues)]
+        [WampProcedure(WampClient.GetWampQueues)]
         object GET_calls_queued(string agent, string fromDirno, string queueDirNo);
 
 
-        [WampProcedure(WampConnection.GetWampDevicesGpos)]
+        [WampProcedure(WampClient.GetWampDevicesGpos)]
         object GET_devices_gpos(string device_id, string id);
 
 
-        [WampProcedure(WampConnection.GetWampDevicesGpis)]
+        [WampProcedure(WampClient.GetWampDevicesGpis)]
         object GET_devices_gpis(string device_id, string id);
     }
 }

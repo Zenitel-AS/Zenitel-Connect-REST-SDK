@@ -23,7 +23,8 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\RestApiClient\bin\Release\RestApiClient.dll" />
-<DocumentationSource sourceFile="..\RestApiClient\bin\Release\RestApiClient.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\RestApiClient\bin\Release\RestApiClient.xml" />
+    </DocumentationSources>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <SyntaxFilters>C#, Managed C++</SyntaxFilters>
     <PresentationStyle>VS2013</PresentationStyle>
@@ -34,7 +35,7 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <HelpTitle>A Sandcastle Documented Class Library</HelpTitle>
-    <HelpFileVersion>1.0.2.0</HelpFileVersion>
+    <HelpFileVersion>1.0.2.1</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <RootNamespaceContainer>True</RootNamespaceContainer>

@@ -11,16 +11,13 @@ namespace Zenitel.Connect.RestApi.Sdk
     {
         private LoggingWindow loggingWindow = null;
         private RestApiClient restApiClient = null;
-        private WampConnection _wampConnection = null;
+        private WampClient    wampClient    = null;
 
-        private string Zenitel_Connect_SDK_Version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
+        private string Zenitel_Connect_RestApi_SDK_Version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
                                         System.Reflection.Assembly.GetExecutingAssembly().Location).ProductVersion;
-
         private string SW_Version;
-        private string LogFilePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) +
-                                     "\\Vingtor Stentofon\\Zenitel_Connect_REST_API_SDK\\Log";
-
-        private string LogFileName = "Zenitel_Connect_RestApi_";
+        private string LogFilePath;
+        private string LogFileName;
 
         /***********************************************************************************************************************/
         public MainForm()
@@ -28,38 +25,46 @@ namespace Zenitel.Connect.RestApi.Sdk
         {
             InitializeComponent();
 
-            SW_Version = "Zenitel Connect REST API SDK version " + Zenitel_Connect_SDK_Version;
+            SW_Version = "Zenitel Connect REST API SDK version " + Zenitel_Connect_RestApi_SDK_Version;
             this.Text = SW_Version;
 
+            LogFilePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) +
+                                 "\\Zenitel\\Zenitel_Connect_RestApi_SDK\\Log";
+
+            LogFileName = "Zenitel_Connect_RestApi_";
             LogMan.Instance.CreateLog(true, 30, LogFilePath, LogFileName);
             addToLog(SW_Version);
 
             lblLogFileSavingLocation.Text = "Location: " + LogFilePath;
+
 
             // REST API Connection
             restApiClient = new RestApiClient();
             restApiClient.OnDebugString += RestApiClient_OnDebugString;
 
             // WAMP API Connection
-            _wampConnection = new WampConnection();
+            wampClient = new WampClient();
 
-            _wampConnection.OnConnectChanged += WampConnection_OnConnectChanged;
-            _wampConnection.OnError += WampConnection_OnError;
-            _wampConnection.OnChildLogString += _wampConnection_OnChildLogString;
+            wampClient.OnConnectChanged += WampConnection_OnConnectChanged;
+            wampClient.OnError += WampConnection_OnError;
+            wampClient.OnChildLogString += wampClient_OnChildLogString;
 
-            _wampConnection.OnWampCallStatusEvent += _wampConnection_OnWampCallStatusEvent;
-            _wampConnection.OnWampCallQueueStatusEvent += _wampConnection_OnWampCallQueueStatusEvent;
-            _wampConnection.OnWampDeviceRegistrationEvent += _wampConnection_OnWampDeviceRegistrationEvent;
-            _wampConnection.OnWampOpenDoorEvent += _wampConnection_OnWampOpenDoorEvent;
-            _wampConnection.OnWampDeviceGPIStatusEvent += _wampConnection_OnWampDeviceGPIStatusEvent;
-            _wampConnection.OnWampDeviceGPOStatusEvent += _wampConnection_OnWampDeviceGPOStatusEvent;
+            wampClient.OnWampCallStatusEvent         += wampClient_OnWampCallStatusEvent;
+            wampClient.OnWampCallQueueStatusEvent    += wampClient_OnWampCallQueueStatusEvent;
+            wampClient.OnWampDeviceRegistrationEvent += wampClient_OnWampDeviceRegistrationEvent;
+            wampClient.OnWampOpenDoorEvent           += wampClient_OnWampOpenDoorEvent;
+            wampClient.OnWampDeviceGPIStatusEvent    += wampClient_OnWampDeviceGPIStatusEvent;
+            wampClient.OnWampDeviceGPOStatusEvent    += wampClient_OnWampDeviceGPOStatusEvent;
 
             UpdateConnectState();
 
             chbxEncrypted.Checked = true;
             chbxUnencrypted.Checked = false;
 
-            cmbxAction.SelectedIndex = 0;
+            cmbxCallAction.Items.Add(RestApiClient.CallAction.setup.ToString());
+            cmbxCallAction.Items.Add(RestApiClient.CallAction.answer.ToString());
+
+            cmbxCallAction.SelectedIndex = 0;
         }
 
 
@@ -73,7 +78,7 @@ namespace Zenitel.Connect.RestApi.Sdk
                 return;
             }
 
-            if (_wampConnection.IsConnected)
+            if (wampClient.IsConnected)
             {
                 tbxConnectionStatus.Text = "Connected";
 
@@ -115,17 +120,17 @@ namespace Zenitel.Connect.RestApi.Sdk
                 if (cbxCallStatusEvent.Checked)
                 {
                     addToLog("Subscribe Call Events.");
-                    _wampConnection.TraceCallEvent();
+                    wampClient.TraceCallEvent();
                 }
                 if (cbxCallQueueStatusEvent.Checked)
                 {
                     addToLog("Subscribe Call Queue Events.");
-                    _wampConnection.TraceCallQueueEvent();
+                    wampClient.TraceCallQueueEvent();
                 }
                 if (cbxDeviceRegistrationEvent.Checked)
                 {
                     addToLog("Subscribe Device Registration Events.");
-                    _wampConnection.TraceDeviceRegistrationEvent();
+                    wampClient.TraceDeviceRegistrationEvent();
                 }
             }
             else
@@ -189,16 +194,16 @@ namespace Zenitel.Connect.RestApi.Sdk
         protected override void OnClosed(EventArgs e)
         /***********************************************************************************************************************/
         {
-            if (_wampConnection.IsConnected)
+            if (wampClient.IsConnected)
             {
-                _wampConnection.Stop();
+                wampClient.Stop();
             }
             base.OnClosed(e);
         }
 
 
         /***********************************************************************************************************************/
-        private void _wampConnection_OnChildLogString(object sender, string e)
+        private void wampClient_OnChildLogString(object sender, string e)
         /***********************************************************************************************************************/
         {
             addToLog(e);
@@ -207,18 +212,18 @@ namespace Zenitel.Connect.RestApi.Sdk
 
         #region  ----------  Subscripted WAMP Event Handling Methods  ----------
 
-        private delegate void _wampConnection_OnWampCallStatusEventCallBack(object sender, WampConnection.wamp_call_element callUpd);
+        private delegate void wampClient_OnWampCallStatusEventCallBack(object sender, WampClient.wamp_call_element callUpd);
 
         /***********************************************************************************************************************/
-        private void _wampConnection_OnWampCallStatusEvent(object sender, WampConnection.wamp_call_element callUpd)
+        private void wampClient_OnWampCallStatusEvent(object sender, WampClient.wamp_call_element callUpd)
         /***********************************************************************************************************************/
         {
             try
             {
                 if (this.dgrd_ActiveCalls.InvokeRequired)
                 {
-                    _wampConnection_OnWampCallStatusEventCallBack cb =
-                        new _wampConnection_OnWampCallStatusEventCallBack(_wampConnection_OnWampCallStatusEvent);
+                    wampClient_OnWampCallStatusEventCallBack cb =
+                        new wampClient_OnWampCallStatusEventCallBack(wampClient_OnWampCallStatusEvent);
 
                     this.Invoke(cb, new object[] { sender, callUpd });
                 }
@@ -227,7 +232,7 @@ namespace Zenitel.Connect.RestApi.Sdk
                     string txt = "SDK-Event. Call State Update: Call from " + callUpd.from_dirno + " to dir-no " + callUpd.to_dirno +
                          ". State = " + callUpd.state + ". id = " + callUpd.id;
 
-                    WampConnection.wamp_call_element newCall = new WampConnection.wamp_call_element();
+                    WampClient.wamp_call_element newCall = new WampClient.wamp_call_element();
                     newCall.from_dirno = callUpd.from_dirno;
                     newCall.to_dirno = callUpd.to_dirno;
                     newCall.state = callUpd.state;
@@ -290,24 +295,24 @@ namespace Zenitel.Connect.RestApi.Sdk
             }
             catch (Exception ex)
             {
-                string txt = "Exception in _wampConnection_OnWampCallStatusEvent: " + ex.ToString();
+                string txt = "Exception in wampClient_OnWampCallStatusEvent: " + ex.ToString();
                 addToLog(txt);
             }
         }
 
 
-        private delegate void _wampConnection_OnWampCallQueueStatusEventCallBack(object sender, WampConnection.wamp_call_queue_element callQueueUpd);
+        private delegate void wampClient_OnWampCallQueueStatusEventCallBack(object sender, WampClient.wamp_call_queue_element callQueueUpd);
 
         /***********************************************************************************************************************/
-        private void _wampConnection_OnWampCallQueueStatusEvent(object sender, WampConnection.wamp_call_queue_element callQueueUpd)
+        private void wampClient_OnWampCallQueueStatusEvent(object sender, WampClient.wamp_call_queue_element callQueueUpd)
         /***********************************************************************************************************************/
         {
             try
             {
                 if (InvokeRequired)
                 {
-                    _wampConnection_OnWampCallQueueStatusEventCallBack cb =
-                       new _wampConnection_OnWampCallQueueStatusEventCallBack(_wampConnection_OnWampCallQueueStatusEvent);
+                    wampClient_OnWampCallQueueStatusEventCallBack cb =
+                       new wampClient_OnWampCallQueueStatusEventCallBack(wampClient_OnWampCallQueueStatusEvent);
 
                     this.Invoke(cb, new object[] { sender, callQueueUpd });
                 }
@@ -391,7 +396,7 @@ namespace Zenitel.Connect.RestApi.Sdk
         }
 
         /***********************************************************************************************************************/
-        private void _wampConnection_OnWampOpenDoorEvent(object sender, WampConnection.wamp_open_door_event doorOpenEvent)
+        private void wampClient_OnWampOpenDoorEvent(object sender, WampClient.wamp_open_door_event doorOpenEvent)
         /***********************************************************************************************************************/
         {
             string txt = "SDK. Device Open Door Event: from_dirno: " + doorOpenEvent.from_dirno + ". from_name: " + doorOpenEvent.from_name +
@@ -403,7 +408,7 @@ namespace Zenitel.Connect.RestApi.Sdk
 
 
         /*****************************************************************************************/
-        private void _wampConnection_OnWampDeviceGPOStatusEvent(object sender, WampConnection.wamp_device_gpio_element e)
+        private void wampClient_OnWampDeviceGPOStatusEvent(object sender, WampClient.wamp_device_gpio_element e)
         /*****************************************************************************************/
         {
             try
@@ -412,14 +417,14 @@ namespace Zenitel.Connect.RestApi.Sdk
             }
             catch (Exception ex)
             {
-                string txt = "Exception in _wampConnection_OnWampDeviceGPOStatusEvent: " + ex.ToString();
+                string txt = "Exception in wampClient_OnWampDeviceGPOStatusEvent: " + ex.ToString();
                 addToLog(txt);
             }
         }
 
 
         /*****************************************************************************************/
-        private void _wampConnection_OnWampDeviceGPIStatusEvent(object sender, WampConnection.wamp_device_gpio_element e)
+        private void wampClient_OnWampDeviceGPIStatusEvent(object sender, WampClient.wamp_device_gpio_element e)
         /*****************************************************************************************/
         {
             try
@@ -429,22 +434,22 @@ namespace Zenitel.Connect.RestApi.Sdk
             }
             catch (Exception ex)
             {
-                string txt = "Exception in _wampConnection_OnWampDeviceGPIStatusEvent: " + ex.ToString();
+                string txt = "Exception in wampClient_OnWampDeviceGPIStatusEvent: " + ex.ToString();
                 addToLog(txt);
             }
         }
 
 
-        private delegate void _wampConnection_OnWampDeviceRegistrationEventCallBack(object sender, WampConnection.wamp_device_registration_element regUpd);
+        private delegate void wampClient_OnWampDeviceRegistrationEventCallBack(object sender, WampClient.wamp_device_registration_element regUpd);
 
         /***********************************************************************************************************************/
-        private void _wampConnection_OnWampDeviceRegistrationEvent(object sender, WampConnection.wamp_device_registration_element regUpd)
+        private void wampClient_OnWampDeviceRegistrationEvent(object sender, WampClient.wamp_device_registration_element regUpd)
         /***********************************************************************************************************************/
         {
             if (this.dgrd_Registrations.InvokeRequired)
             {
-                _wampConnection_OnWampDeviceRegistrationEventCallBack cb =
-                    new _wampConnection_OnWampDeviceRegistrationEventCallBack(_wampConnection_OnWampDeviceRegistrationEvent);
+                wampClient_OnWampDeviceRegistrationEventCallBack cb =
+                    new wampClient_OnWampDeviceRegistrationEventCallBack(wampClient_OnWampDeviceRegistrationEvent);
 
                 this.Invoke(cb, new object[] { sender, regUpd });
             }
@@ -596,27 +601,27 @@ namespace Zenitel.Connect.RestApi.Sdk
                     restApiClient.Authentication();
                 }
 
-                if (_wampConnection.IsConnected)
+                if (wampClient.IsConnected)
                 {
                     MessageBox.Show("WAMP already connected.");
                 }
                 else
                 {
-                    _wampConnection.WampServerAddr = edtConnectServerAddr.Text;
-                    _wampConnection.UserName = edtUserName.Text;
-                    _wampConnection.Password = edtPassword.Text;
+                    wampClient.WampServerAddr = edtConnectServerAddr.Text;
+                    wampClient.UserName = edtUserName.Text;
+                    wampClient.Password = edtPassword.Text;
 
                     if (chbxUnencrypted.Checked)
                     {
-                        _wampConnection.WampPort = WampConnection.WampUnencryptedPort;
+                        wampClient.WampPort = WampClient.WampUnencryptedPort;
                     }
                     else
                     {
-                        _wampConnection.WampPort = WampConnection.WampEncryptedPort;
+                        wampClient.WampPort = WampClient.WampEncryptedPort;
                     }
 
-                    _wampConnection.WampRealm = edtWampRealm.Text;
-                    _wampConnection.Start();
+                    wampClient.WampRealm = edtWampRealm.Text;
+                    wampClient.Start();
                 }
             }
 
@@ -637,7 +642,7 @@ namespace Zenitel.Connect.RestApi.Sdk
                 restApiClient = null;
             }
 
-            _wampConnection.Stop();
+            wampClient.Stop();
             tbxConnectionStatus.Text = "Disconnected";
         }
 
@@ -846,8 +851,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     string aSub = tbxASubscriber.Text;
                     string bSub = tbxBSubscriber.Text;
+                    string act  = cmbxCallAction.SelectedItem.ToString();
 
-                    restapi_response restApiResp = restApiClient.POST_Calls(aSub, bSub, "setup");
+                     restapi_response restApiResp = restApiClient.POST_Calls(aSub, bSub, act);
+
                     addToLog("btnPOST_calls_Click: RestApi Response  = " + restApiResp.RestApiResponse.ToString());
                     addToLog("btnPOST_calls_Click: CompletionText = " + restApiResp.CompletionText);
                 }
@@ -878,14 +885,14 @@ namespace Zenitel.Connect.RestApi.Sdk
 
                     if ((selRow != null) && (selRow.Count == 1))
                     {
-                        if (cmbxAction.SelectedIndex >= 0)
+                        if (cmbxCallAction.SelectedIndex >= 0)
                         {
-                            string act = cmbxAction.SelectedItem.ToString();
+                            string act = cmbxCallAction.SelectedItem.ToString();
                             string callId = selRow[0].Cells[3].Value.ToString();
 
-                            addToLog("btnPOSTcallId_Click: CallId: " + callId + ". Action: " + act);
+                            addToLog("btnPOSTcallId_Click: CallId: " + callId + ". Action: Answer");
 
-                            restapi_response restApiResp  =  restApiClient.POST_CallsCallId(callId, act);
+                            restapi_response restApiResp  =  restApiClient.POST_CallsCallId(callId, RestApiClient.CallAction.answer.ToString());
 
                             addToLog("btnPOSTcallId_Click: Wamp Response  = " + restApiResp.RestApiResponse.ToString());
                             addToLog("btnPOSTcallId_Click: CompletionText = " + restApiResp.CompletionText);
@@ -1141,12 +1148,12 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Call Status Event is check mark set.");
 
-                    if (!_wampConnection.TraceCallEventIsEnabled())
+                    if (!wampClient.TraceCallEventIsEnabled())
                     {
                         addToLog("Enable Call Status Event.");
-                        if (_wampConnection.IsConnected)
+                        if (wampClient.IsConnected)
                         {
-                            _wampConnection.TraceCallEvent();
+                            wampClient.TraceCallEvent();
                         }
                         else
                         {
@@ -1159,10 +1166,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Call Status Event check mark cleared.");
 
-                    if (_wampConnection.TraceCallEventIsEnabled())
+                    if (wampClient.TraceCallEventIsEnabled())
                     {
                         addToLog("Disable Call Status Event.");
-                        _wampConnection.TraceCallEventDispose();
+                        wampClient.TraceCallEventDispose();
                     }
                 }
             }
@@ -1184,12 +1191,12 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Call Queue Status Event is check mark set.");
 
-                    if (!_wampConnection.TraceCallQueueEventIsEnabled())
+                    if (!wampClient.TraceCallQueueEventIsEnabled())
                     {
                         addToLog("Enable Call Queue Status Event.");
-                        if (_wampConnection.IsConnected)
+                        if (wampClient.IsConnected)
                         {
-                            _wampConnection.TraceCallQueueEvent();
+                            wampClient.TraceCallQueueEvent();
                         }
                         else
                         {
@@ -1201,10 +1208,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 else
                 {
                     addToLog("Call Queue Status Event check mark cleared.");
-                    if (_wampConnection.TraceCallQueueEventIsEnabled())
+                    if (wampClient.TraceCallQueueEventIsEnabled())
                     {
                         addToLog("Disable Call Queue Status Event.");
-                        _wampConnection.TraceCallQueueEventDispose();
+                        wampClient.TraceCallQueueEventDispose();
                     }
                 }
             }
@@ -1226,12 +1233,12 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Device Registration Status Event check mark set.");
 
-                    if (!_wampConnection.TraceDeviceRegistrationIsEnabled())
+                    if (!wampClient.TraceDeviceRegistrationIsEnabled())
                     {
                         addToLog("Enable Device Registration Status Event.");
-                        if (_wampConnection.IsConnected)
+                        if (wampClient.IsConnected)
                         {
-                            _wampConnection.TraceDeviceRegistrationEvent();
+                            wampClient.TraceDeviceRegistrationEvent();
                         }
                         else
                         {
@@ -1243,10 +1250,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 else
                 {
                     addToLog("Device Registration Status Event check mark cleared.");
-                    if (_wampConnection.TraceDeviceRegistrationIsEnabled())
+                    if (wampClient.TraceDeviceRegistrationIsEnabled())
                     {
                         addToLog("Disable Device Registration Status Event.");
-                        _wampConnection.TraceDeviceRegistrationEventDispose();
+                        wampClient.TraceDeviceRegistrationEventDispose();
                     }
                 }
             }
@@ -1269,12 +1276,12 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Device GPO Staus Event check mark set.");
 
-                    if (!_wampConnection.TraceDeviceGPOStatusEventIsEnabled())
+                    if (!wampClient.TraceDeviceGPOStatusEventIsEnabled())
                     {
                         addToLog("Enable Device GPO Status Event.");
-                        if (_wampConnection.IsConnected)
+                        if (wampClient.IsConnected)
                         {
-                            _wampConnection.TraceDeviceGPOStatusEvent(tbxGPODevice.Text);
+                            wampClient.TraceDeviceGPOStatusEvent(tbxGPODevice.Text);
                         }
                         else
                         {
@@ -1287,10 +1294,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Device GPO Status Event check mark cleared.");
 
-                    if (_wampConnection.TraceDeviceGPOStatusEventIsEnabled())
+                    if (wampClient.TraceDeviceGPOStatusEventIsEnabled())
                     {
                         addToLog("Disable Device GPO Status Event.");
-                        _wampConnection.TraceDeviceGPOStatusEventDispose();
+                        wampClient.TraceDeviceGPOStatusEventDispose();
                     }
                 }
             }
@@ -1312,12 +1319,12 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Device GPI Staus Event check mark set.");
 
-                    if (!_wampConnection.TraceDeviceGPIStatusEventIsEnabled())
+                    if (!wampClient.TraceDeviceGPIStatusEventIsEnabled())
                     {
                         addToLog("Enable Device GPI Status Event.");
-                        if (_wampConnection.IsConnected)
+                        if (wampClient.IsConnected)
                         {
-                            _wampConnection.TraceDeviceGPIStatusEvent(tbxGPIDevice.Text);
+                            wampClient.TraceDeviceGPIStatusEvent(tbxGPIDevice.Text);
                         }
                         else
                         {
@@ -1330,10 +1337,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Device GPI Status Event check mark cleared.");
 
-                    if (_wampConnection.TraceDeviceGPIStatusEventIsEnabled())
+                    if (wampClient.TraceDeviceGPIStatusEventIsEnabled())
                     {
                         addToLog("Disable Device GPI Status Event.");
-                        _wampConnection.TraceDeviceGPIStatusEventDispose();
+                        wampClient.TraceDeviceGPIStatusEventDispose();
                     }
                 }
             }
@@ -1356,12 +1363,12 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Open Door Event check mark set.");
 
-                    if (!_wampConnection.TraceOpenDoorEventIsEnabled())
+                    if (!wampClient.TraceOpenDoorEventIsEnabled())
                     {
                         addToLog("Enable Open Door Event.");
-                        if (_wampConnection.IsConnected)
+                        if (wampClient.IsConnected)
                         {
-                            _wampConnection.TraceOpenDoorEvent();
+                            wampClient.TraceOpenDoorEvent();
                         }
                         else
                         {
@@ -1374,10 +1381,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                 {
                     addToLog("Open Door Event check mark cleared.");
 
-                    if (_wampConnection.TraceOpenDoorEventIsEnabled())
+                    if (wampClient.TraceOpenDoorEventIsEnabled())
                     {
                         addToLog("Disable Open Door Event.");
-                        _wampConnection.TraceDeviceGPOStatusEventDispose();
+                        wampClient.TraceDeviceGPOStatusEventDispose();
                     }
                 }
             }

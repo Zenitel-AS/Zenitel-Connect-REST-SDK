@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Wamp.Client
 {
-    public partial class WampConnection
+    public partial class WampClient
     {
 
         /***********************************************************************************************************************/

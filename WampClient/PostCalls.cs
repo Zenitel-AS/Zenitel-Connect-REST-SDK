@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Wamp.Client
 {
-    public partial class WampConnection
+    public partial class WampClient
     {
         /***********************************************************************************************************************/
         /********************                                  Post Calls                                    *******************/
@@ -35,8 +35,8 @@ namespace Wamp.Client
                 Dictionary<string, object> argumentsKeywords = new Dictionary<string, object>();
 
                 argumentsKeywords["from_dirno"] = fromDirNo;
-                argumentsKeywords["to_dirno"] = toDirNo;
-                argumentsKeywords["action"] = action;
+                argumentsKeywords["to_dirno"]   = toDirNo;
+                argumentsKeywords["action"]     = action;
 
                 RPCCallback rpcCallback = new RPCCallback();
 

@@ -10,7 +10,7 @@ namespace Wamp.Client
     /// This Class implements the Zenitel Link Protocol
     /// </summary>
 
-    public partial class WampConnection
+    public partial class WampClient
     {
 
         /***********************************************************************************************************************/
