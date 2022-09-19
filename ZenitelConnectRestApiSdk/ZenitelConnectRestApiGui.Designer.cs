@@ -31,6 +31,8 @@ namespace Zenitel.Connect.RestApi.Sdk
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.gbxAuthentication = new System.Windows.Forms.GroupBox();
+            this.chbxUnencrypted = new System.Windows.Forms.CheckBox();
+            this.chbxEncrypted = new System.Windows.Forms.CheckBox();
             this.edtWampRealm = new System.Windows.Forms.TextBox();
             this.labWampRealm = new System.Windows.Forms.Label();
             this.labEncryption = new System.Windows.Forms.Label();
@@ -54,17 +56,18 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.btnGETNetInterface = new System.Windows.Forms.Button();
             this.btnGETDeviceAccounts = new System.Windows.Forms.Button();
             this.gbxCallControl = new System.Windows.Forms.GroupBox();
-            this.cmbxAction = new System.Windows.Forms.ComboBox();
+            this.grpbxPOSTCalls = new System.Windows.Forms.GroupBox();
+            this.btnPOSTCalls = new System.Windows.Forms.Button();
+            this.cmbxCallAction = new System.Windows.Forms.ComboBox();
+            this.lblASubscriber = new System.Windows.Forms.Label();
             this.lblAction = new System.Windows.Forms.Label();
+            this.tbxASubscriber = new System.Windows.Forms.TextBox();
+            this.lblBSubscriber = new System.Windows.Forms.Label();
+            this.tbxBSubscriber = new System.Windows.Forms.TextBox();
             this.btnPOSTcallId = new System.Windows.Forms.Button();
             this.btnGETCalls = new System.Windows.Forms.Button();
             this.btnGETQueues = new System.Windows.Forms.Button();
             this.btnDELETECallId = new System.Windows.Forms.Button();
-            this.tbxBSubscriber = new System.Windows.Forms.TextBox();
-            this.lblBSubscriber = new System.Windows.Forms.Label();
-            this.tbxASubscriber = new System.Windows.Forms.TextBox();
-            this.lblASubscriber = new System.Windows.Forms.Label();
-            this.btnPOSTCalls = new System.Windows.Forms.Button();
             this.btnDELETECalls = new System.Windows.Forms.Button();
             this.gbxDevice = new System.Windows.Forms.GroupBox();
             this.btnPOSTDeviceGPO = new System.Windows.Forms.Button();
@@ -106,12 +109,11 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.chbxEncrypted = new System.Windows.Forms.CheckBox();
-            this.chbxUnencrypted = new System.Windows.Forms.CheckBox();
             this.gbxAuthentication.SuspendLayout();
             this.gbxLogging.SuspendLayout();
             this.gbxSwaggerSystem.SuspendLayout();
             this.gbxCallControl.SuspendLayout();
+            this.grpbxPOSTCalls.SuspendLayout();
             this.gbxDevice.SuspendLayout();
             this.grbEvent.SuspendLayout();
             this.grpbxRegistratedDevices.SuspendLayout();
@@ -148,6 +150,32 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxAuthentication.TabIndex = 39;
             this.gbxAuthentication.TabStop = false;
             this.gbxAuthentication.Text = "Authentication";
+            // 
+            // chbxUnencrypted
+            // 
+            this.chbxUnencrypted.AutoSize = true;
+            this.chbxUnencrypted.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chbxUnencrypted.Location = new System.Drawing.Point(553, 64);
+            this.chbxUnencrypted.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chbxUnencrypted.Name = "chbxUnencrypted";
+            this.chbxUnencrypted.Size = new System.Drawing.Size(206, 21);
+            this.chbxUnencrypted.TabIndex = 29;
+            this.chbxUnencrypted.Text = "Unencrypted (Port 80/8087)";
+            this.chbxUnencrypted.UseVisualStyleBackColor = true;
+            this.chbxUnencrypted.CheckedChanged += new System.EventHandler(this.chbxUnencrypted_CheckedChanged);
+            // 
+            // chbxEncrypted
+            // 
+            this.chbxEncrypted.AutoSize = true;
+            this.chbxEncrypted.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chbxEncrypted.Location = new System.Drawing.Point(553, 39);
+            this.chbxEncrypted.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chbxEncrypted.Name = "chbxEncrypted";
+            this.chbxEncrypted.Size = new System.Drawing.Size(198, 21);
+            this.chbxEncrypted.TabIndex = 28;
+            this.chbxEncrypted.Text = "Encrypted (Port 443/8086)";
+            this.chbxEncrypted.UseVisualStyleBackColor = true;
+            this.chbxEncrypted.CheckedChanged += new System.EventHandler(this.chbxEncrypted_CheckedChanged);
             // 
             // edtWampRealm
             // 
@@ -276,7 +304,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.edtPassword.Name = "edtPassword";
             this.edtPassword.Size = new System.Drawing.Size(110, 23);
             this.edtPassword.TabIndex = 8;
-            this.edtPassword.Text = "alphaadmin";
+            this.edtPassword.Text = "admin";
             this.edtPassword.UseSystemPasswordChar = true;
             // 
             // gbxLogging
@@ -393,109 +421,77 @@ namespace Zenitel.Connect.RestApi.Sdk
             // gbxCallControl
             // 
             this.gbxCallControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.gbxCallControl.Controls.Add(this.cmbxAction);
-            this.gbxCallControl.Controls.Add(this.lblAction);
+            this.gbxCallControl.Controls.Add(this.grpbxPOSTCalls);
             this.gbxCallControl.Controls.Add(this.btnPOSTcallId);
             this.gbxCallControl.Controls.Add(this.btnGETCalls);
             this.gbxCallControl.Controls.Add(this.btnGETQueues);
             this.gbxCallControl.Controls.Add(this.btnDELETECallId);
-            this.gbxCallControl.Controls.Add(this.tbxBSubscriber);
-            this.gbxCallControl.Controls.Add(this.lblBSubscriber);
-            this.gbxCallControl.Controls.Add(this.tbxASubscriber);
-            this.gbxCallControl.Controls.Add(this.lblASubscriber);
-            this.gbxCallControl.Controls.Add(this.btnPOSTCalls);
             this.gbxCallControl.Controls.Add(this.btnDELETECalls);
             this.gbxCallControl.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbxCallControl.Location = new System.Drawing.Point(194, 152);
             this.gbxCallControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gbxCallControl.Name = "gbxCallControl";
             this.gbxCallControl.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbxCallControl.Size = new System.Drawing.Size(292, 312);
+            this.gbxCallControl.Size = new System.Drawing.Size(311, 388);
             this.gbxCallControl.TabIndex = 45;
             this.gbxCallControl.TabStop = false;
             this.gbxCallControl.Text = "Call Handling";
             // 
-            // cmbxAction
+            // grpbxPOSTCalls
             // 
-            this.cmbxAction.FormattingEnabled = true;
-            this.cmbxAction.Items.AddRange(new object[] {
-            "answer"});
-            this.cmbxAction.Location = new System.Drawing.Point(16, 132);
-            this.cmbxAction.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.cmbxAction.Name = "cmbxAction";
-            this.cmbxAction.Size = new System.Drawing.Size(92, 24);
-            this.cmbxAction.TabIndex = 41;
+            this.grpbxPOSTCalls.Controls.Add(this.btnPOSTCalls);
+            this.grpbxPOSTCalls.Controls.Add(this.cmbxCallAction);
+            this.grpbxPOSTCalls.Controls.Add(this.lblASubscriber);
+            this.grpbxPOSTCalls.Controls.Add(this.lblAction);
+            this.grpbxPOSTCalls.Controls.Add(this.tbxASubscriber);
+            this.grpbxPOSTCalls.Controls.Add(this.lblBSubscriber);
+            this.grpbxPOSTCalls.Controls.Add(this.tbxBSubscriber);
+            this.grpbxPOSTCalls.Location = new System.Drawing.Point(16, 22);
+            this.grpbxPOSTCalls.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpbxPOSTCalls.Name = "grpbxPOSTCalls";
+            this.grpbxPOSTCalls.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpbxPOSTCalls.Size = new System.Drawing.Size(281, 136);
+            this.grpbxPOSTCalls.TabIndex = 42;
+            this.grpbxPOSTCalls.TabStop = false;
+            // 
+            // btnPOSTCalls
+            // 
+            this.btnPOSTCalls.Location = new System.Drawing.Point(145, 15);
+            this.btnPOSTCalls.Name = "btnPOSTCalls";
+            this.btnPOSTCalls.Size = new System.Drawing.Size(118, 60);
+            this.btnPOSTCalls.TabIndex = 15;
+            this.btnPOSTCalls.Text = "POST Calls";
+            this.btnPOSTCalls.UseVisualStyleBackColor = true;
+            this.btnPOSTCalls.Click += new System.EventHandler(this.btnPOSTCalls_Click);
+            // 
+            // cmbxCallAction
+            // 
+            this.cmbxCallAction.FormattingEnabled = true;
+            this.cmbxCallAction.Location = new System.Drawing.Point(145, 101);
+            this.cmbxCallAction.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbxCallAction.Name = "cmbxCallAction";
+            this.cmbxCallAction.Size = new System.Drawing.Size(92, 24);
+            this.cmbxCallAction.TabIndex = 41;
+            // 
+            // lblASubscriber
+            // 
+            this.lblASubscriber.AutoSize = true;
+            this.lblASubscriber.Location = new System.Drawing.Point(20, 19);
+            this.lblASubscriber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblASubscriber.Name = "lblASubscriber";
+            this.lblASubscriber.Size = new System.Drawing.Size(103, 16);
+            this.lblASubscriber.TabIndex = 34;
+            this.lblASubscriber.Text = "A-Subscriber:";
             // 
             // lblAction
             // 
             this.lblAction.AutoSize = true;
-            this.lblAction.Location = new System.Drawing.Point(16, 114);
+            this.lblAction.Location = new System.Drawing.Point(142, 84);
             this.lblAction.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAction.Name = "lblAction";
             this.lblAction.Size = new System.Drawing.Size(56, 16);
             this.lblAction.TabIndex = 40;
             this.lblAction.Text = "Action:";
-            // 
-            // btnPOSTcallId
-            // 
-            this.btnPOSTcallId.Location = new System.Drawing.Point(151, 90);
-            this.btnPOSTcallId.Name = "btnPOSTcallId";
-            this.btnPOSTcallId.Size = new System.Drawing.Size(118, 63);
-            this.btnPOSTcallId.TabIndex = 38;
-            this.btnPOSTcallId.Text = "POST\r\nCall Id";
-            this.btnPOSTcallId.UseVisualStyleBackColor = true;
-            this.btnPOSTcallId.Click += new System.EventHandler(this.btnPOSTcallId_Click);
-            // 
-            // btnGETCalls
-            // 
-            this.btnGETCalls.Location = new System.Drawing.Point(16, 162);
-            this.btnGETCalls.Name = "btnGETCalls";
-            this.btnGETCalls.Size = new System.Drawing.Size(118, 63);
-            this.btnGETCalls.TabIndex = 4;
-            this.btnGETCalls.Text = "GET\r\nCalls";
-            this.btnGETCalls.UseVisualStyleBackColor = true;
-            this.btnGETCalls.Click += new System.EventHandler(this.btnGETCalls_Click);
-            // 
-            // btnGETQueues
-            // 
-            this.btnGETQueues.Location = new System.Drawing.Point(16, 237);
-            this.btnGETQueues.Name = "btnGETQueues";
-            this.btnGETQueues.Size = new System.Drawing.Size(118, 63);
-            this.btnGETQueues.TabIndex = 37;
-            this.btnGETQueues.Text = "GET\r\nQueues";
-            this.btnGETQueues.UseVisualStyleBackColor = true;
-            this.btnGETQueues.Click += new System.EventHandler(this.btnGETQueues_Click);
-            // 
-            // btnDELETECallId
-            // 
-            this.btnDELETECallId.Location = new System.Drawing.Point(151, 237);
-            this.btnDELETECallId.Name = "btnDELETECallId";
-            this.btnDELETECallId.Size = new System.Drawing.Size(118, 63);
-            this.btnDELETECallId.TabIndex = 36;
-            this.btnDELETECallId.Text = "DELETE\r\nCall Id";
-            this.btnDELETECallId.UseVisualStyleBackColor = true;
-            this.btnDELETECallId.Click += new System.EventHandler(this.btnDELETECallId_Click);
-            // 
-            // tbxBSubscriber
-            // 
-            this.tbxBSubscriber.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxBSubscriber.Location = new System.Drawing.Point(17, 84);
-            this.tbxBSubscriber.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tbxBSubscriber.Name = "tbxBSubscriber";
-            this.tbxBSubscriber.Size = new System.Drawing.Size(58, 23);
-            this.tbxBSubscriber.TabIndex = 33;
-            this.tbxBSubscriber.Text = "142";
-            this.tbxBSubscriber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // lblBSubscriber
-            // 
-            this.lblBSubscriber.AutoSize = true;
-            this.lblBSubscriber.Location = new System.Drawing.Point(14, 67);
-            this.lblBSubscriber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblBSubscriber.Name = "lblBSubscriber";
-            this.lblBSubscriber.Size = new System.Drawing.Size(104, 16);
-            this.lblBSubscriber.TabIndex = 35;
-            this.lblBSubscriber.Text = "B-Subscriber:";
             // 
             // tbxASubscriber
             // 
@@ -506,7 +502,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             "144",
             "145"});
             this.tbxASubscriber.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxASubscriber.Location = new System.Drawing.Point(16, 37);
+            this.tbxASubscriber.Location = new System.Drawing.Point(21, 36);
             this.tbxASubscriber.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbxASubscriber.Name = "tbxASubscriber";
             this.tbxASubscriber.Size = new System.Drawing.Size(58, 23);
@@ -514,29 +510,70 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxASubscriber.Text = "141";
             this.tbxASubscriber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // lblASubscriber
+            // lblBSubscriber
             // 
-            this.lblASubscriber.AutoSize = true;
-            this.lblASubscriber.Location = new System.Drawing.Point(14, 20);
-            this.lblASubscriber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblASubscriber.Name = "lblASubscriber";
-            this.lblASubscriber.Size = new System.Drawing.Size(103, 16);
-            this.lblASubscriber.TabIndex = 34;
-            this.lblASubscriber.Text = "A-Subscriber:";
+            this.lblBSubscriber.AutoSize = true;
+            this.lblBSubscriber.Location = new System.Drawing.Point(18, 82);
+            this.lblBSubscriber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblBSubscriber.Name = "lblBSubscriber";
+            this.lblBSubscriber.Size = new System.Drawing.Size(104, 16);
+            this.lblBSubscriber.TabIndex = 35;
+            this.lblBSubscriber.Text = "B-Subscriber:";
             // 
-            // btnPOSTCalls
+            // tbxBSubscriber
             // 
-            this.btnPOSTCalls.Location = new System.Drawing.Point(151, 24);
-            this.btnPOSTCalls.Name = "btnPOSTCalls";
-            this.btnPOSTCalls.Size = new System.Drawing.Size(118, 60);
-            this.btnPOSTCalls.TabIndex = 15;
-            this.btnPOSTCalls.Text = "POST Calls";
-            this.btnPOSTCalls.UseVisualStyleBackColor = true;
-            this.btnPOSTCalls.Click += new System.EventHandler(this.btnPOSTCalls_Click);
+            this.tbxBSubscriber.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxBSubscriber.Location = new System.Drawing.Point(21, 99);
+            this.tbxBSubscriber.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxBSubscriber.Name = "tbxBSubscriber";
+            this.tbxBSubscriber.Size = new System.Drawing.Size(58, 23);
+            this.tbxBSubscriber.TabIndex = 33;
+            this.tbxBSubscriber.Text = "142";
+            this.tbxBSubscriber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // btnPOSTcallId
+            // 
+            this.btnPOSTcallId.Location = new System.Drawing.Point(160, 171);
+            this.btnPOSTcallId.Name = "btnPOSTcallId";
+            this.btnPOSTcallId.Size = new System.Drawing.Size(118, 63);
+            this.btnPOSTcallId.TabIndex = 38;
+            this.btnPOSTcallId.Text = "POST\r\nCall Id\r\n(answer)";
+            this.btnPOSTcallId.UseVisualStyleBackColor = true;
+            this.btnPOSTcallId.Click += new System.EventHandler(this.btnPOSTcallId_Click);
+            // 
+            // btnGETCalls
+            // 
+            this.btnGETCalls.Location = new System.Drawing.Point(16, 169);
+            this.btnGETCalls.Name = "btnGETCalls";
+            this.btnGETCalls.Size = new System.Drawing.Size(118, 63);
+            this.btnGETCalls.TabIndex = 4;
+            this.btnGETCalls.Text = "GET\r\nCalls";
+            this.btnGETCalls.UseVisualStyleBackColor = true;
+            this.btnGETCalls.Click += new System.EventHandler(this.btnGETCalls_Click);
+            // 
+            // btnGETQueues
+            // 
+            this.btnGETQueues.Location = new System.Drawing.Point(16, 239);
+            this.btnGETQueues.Name = "btnGETQueues";
+            this.btnGETQueues.Size = new System.Drawing.Size(118, 63);
+            this.btnGETQueues.TabIndex = 37;
+            this.btnGETQueues.Text = "GET\r\nQueues";
+            this.btnGETQueues.UseVisualStyleBackColor = true;
+            this.btnGETQueues.Click += new System.EventHandler(this.btnGETQueues_Click);
+            // 
+            // btnDELETECallId
+            // 
+            this.btnDELETECallId.Location = new System.Drawing.Point(160, 311);
+            this.btnDELETECallId.Name = "btnDELETECallId";
+            this.btnDELETECallId.Size = new System.Drawing.Size(118, 63);
+            this.btnDELETECallId.TabIndex = 36;
+            this.btnDELETECallId.Text = "DELETE\r\nCall Id";
+            this.btnDELETECallId.UseVisualStyleBackColor = true;
+            this.btnDELETECallId.Click += new System.EventHandler(this.btnDELETECallId_Click);
             // 
             // btnDELETECalls
             // 
-            this.btnDELETECalls.Location = new System.Drawing.Point(151, 163);
+            this.btnDELETECalls.Location = new System.Drawing.Point(160, 241);
             this.btnDELETECalls.Name = "btnDELETECalls";
             this.btnDELETECalls.Size = new System.Drawing.Size(118, 63);
             this.btnDELETECalls.TabIndex = 16;
@@ -555,7 +592,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxDevice.Controls.Add(this.btnGETDeviceGPIOs);
             this.gbxDevice.Controls.Add(this.btnGETDeviceGPOs);
             this.gbxDevice.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbxDevice.Location = new System.Drawing.Point(506, 152);
+            this.gbxDevice.Location = new System.Drawing.Point(530, 152);
             this.gbxDevice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gbxDevice.Name = "gbxDevice";
             this.gbxDevice.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -643,11 +680,11 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.grbEvent.Controls.Add(this.cbxDeviceRegistrationEvent);
             this.grbEvent.Controls.Add(this.cbxCallQueueStatusEvent);
             this.grbEvent.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbEvent.Location = new System.Drawing.Point(787, 152);
+            this.grbEvent.Location = new System.Drawing.Point(798, 152);
             this.grbEvent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.grbEvent.Name = "grbEvent";
             this.grbEvent.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grbEvent.Size = new System.Drawing.Size(255, 276);
+            this.grbEvent.Size = new System.Drawing.Size(244, 276);
             this.grbEvent.TabIndex = 47;
             this.grbEvent.TabStop = false;
             this.grbEvent.Text = "Events (WAMP Interface)";
@@ -729,11 +766,11 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.grpbxRegistratedDevices.Controls.Add(this.btnClearList);
             this.grpbxRegistratedDevices.Controls.Add(this.dgrd_Registrations);
             this.grpbxRegistratedDevices.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpbxRegistratedDevices.Location = new System.Drawing.Point(16, 486);
+            this.grpbxRegistratedDevices.Location = new System.Drawing.Point(16, 555);
             this.grpbxRegistratedDevices.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.grpbxRegistratedDevices.Name = "grpbxRegistratedDevices";
             this.grpbxRegistratedDevices.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grpbxRegistratedDevices.Size = new System.Drawing.Size(492, 222);
+            this.grpbxRegistratedDevices.Size = new System.Drawing.Size(492, 169);
             this.grpbxRegistratedDevices.TabIndex = 48;
             this.grpbxRegistratedDevices.TabStop = false;
             this.grpbxRegistratedDevices.Text = "Registered Devices";
@@ -741,7 +778,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnClearList
             // 
             this.btnClearList.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearList.Location = new System.Drawing.Point(395, 173);
+            this.btnClearList.Location = new System.Drawing.Point(394, 125);
             this.btnClearList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(82, 32);
@@ -770,7 +807,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrd_Registrations.RowHeadersWidth = 51;
             this.dgrd_Registrations.RowTemplate.Height = 24;
             this.dgrd_Registrations.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgrd_Registrations.Size = new System.Drawing.Size(461, 146);
+            this.dgrd_Registrations.Size = new System.Drawing.Size(461, 102);
             this.dgrd_Registrations.TabIndex = 16;
             // 
             // dgrdDirNo
@@ -998,37 +1035,11 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 125;
             // 
-            // chbxEncrypted
-            // 
-            this.chbxEncrypted.AutoSize = true;
-            this.chbxEncrypted.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chbxEncrypted.Location = new System.Drawing.Point(553, 39);
-            this.chbxEncrypted.Margin = new System.Windows.Forms.Padding(2);
-            this.chbxEncrypted.Name = "chbxEncrypted";
-            this.chbxEncrypted.Size = new System.Drawing.Size(198, 21);
-            this.chbxEncrypted.TabIndex = 28;
-            this.chbxEncrypted.Text = "Encrypted (Port 443/8086)";
-            this.chbxEncrypted.UseVisualStyleBackColor = true;
-            this.chbxEncrypted.CheckedChanged += new System.EventHandler(this.chbxEncrypted_CheckedChanged);
-            // 
-            // chbxUnencrypted
-            // 
-            this.chbxUnencrypted.AutoSize = true;
-            this.chbxUnencrypted.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chbxUnencrypted.Location = new System.Drawing.Point(553, 64);
-            this.chbxUnencrypted.Margin = new System.Windows.Forms.Padding(2);
-            this.chbxUnencrypted.Name = "chbxUnencrypted";
-            this.chbxUnencrypted.Size = new System.Drawing.Size(206, 21);
-            this.chbxUnencrypted.TabIndex = 29;
-            this.chbxUnencrypted.Text = "Unencrypted (Port 80/8087)";
-            this.chbxUnencrypted.UseVisualStyleBackColor = true;
-            this.chbxUnencrypted.CheckedChanged += new System.EventHandler(this.chbxUnencrypted_CheckedChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1254, 1007);
+            this.ClientSize = new System.Drawing.Size(1063, 1007);
             this.Controls.Add(this.gbxQueuedCalls);
             this.Controls.Add(this.gbxActiveCalls);
             this.Controls.Add(this.gbxNetInterfaces);
@@ -1049,7 +1060,8 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxLogging.PerformLayout();
             this.gbxSwaggerSystem.ResumeLayout(false);
             this.gbxCallControl.ResumeLayout(false);
-            this.gbxCallControl.PerformLayout();
+            this.grpbxPOSTCalls.ResumeLayout(false);
+            this.grpbxPOSTCalls.PerformLayout();
             this.gbxDevice.ResumeLayout(false);
             this.gbxDevice.PerformLayout();
             this.grbEvent.ResumeLayout(false);
@@ -1089,7 +1101,7 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.Button btnGETNetInterface;
         private System.Windows.Forms.Button btnGETDeviceAccounts;
         private System.Windows.Forms.GroupBox gbxCallControl;
-        private System.Windows.Forms.ComboBox cmbxAction;
+        private System.Windows.Forms.ComboBox cmbxCallAction;
         private System.Windows.Forms.Label lblAction;
         private System.Windows.Forms.Button btnPOSTcallId;
         private System.Windows.Forms.Button btnGETCalls;
@@ -1146,6 +1158,7 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.Button btnPOSTDeviceGPO;
         private System.Windows.Forms.CheckBox chbxUnencrypted;
         private System.Windows.Forms.CheckBox chbxEncrypted;
+        private System.Windows.Forms.GroupBox grpbxPOSTCalls;
     }
 }
 

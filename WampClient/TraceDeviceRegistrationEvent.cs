@@ -9,7 +9,7 @@ using WampSharp.V2.Core.Contracts;
 namespace Wamp.Client
 {
 
-    public partial class WampConnection
+    public partial class WampClient
     {
         /***********************************************************************************************************************/
         /********************                 Device Registration Event Subscription                         *******************/

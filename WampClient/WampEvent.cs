@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Wamp.Client
 {
 
-    public partial class WampConnection
+    public partial class WampClient
     {
   
         /// <summary>This class contains device registration element.</summary>

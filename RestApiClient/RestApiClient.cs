@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Net;
-
-//EM
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 
@@ -431,6 +427,20 @@ namespace Rest.Api.Client
         private const string GetRestApiDevicesGpos = "api/devices/device/gpos";
         private const string GetRestApiDevicesGpis = "api/devices/device/gpis";
 
+        /// <summary>
+        /// Defines the actions possible for a call
+        /// </summary>
+        public enum CallAction
+        {
+            /// <summary>
+            /// Defines the call setup action
+            /// </summary>
+            setup,
+            /// <summary>
+            /// Defines the call answer action
+            /// </summary>
+            answer
+        }
 
         /// <summary>
         /// This method is the constructor of the Zenitel REST API Link Protocol
@@ -443,7 +453,7 @@ namespace Rest.Api.Client
             Token = string.Empty;
             ConnectServerAddr = "169.254.1.5";
             UserName = "admin";
-            Password = "alphaadmin";
+            Password = "admin";
             OnDebugString?.Invoke(this, "RestApiClient constructor invoked.");
         }
 

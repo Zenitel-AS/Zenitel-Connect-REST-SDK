@@ -8,7 +8,7 @@ using WampSharp.V2.Rpc;
 
 namespace Wamp.Client
 {
-    public partial class WampConnection
+    public partial class WampClient
     {
         /***********************************************************************************************************************/
         /********************                                  Post Device GPO                               *******************/

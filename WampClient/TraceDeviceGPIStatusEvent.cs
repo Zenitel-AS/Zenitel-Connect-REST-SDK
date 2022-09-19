@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 
 namespace Wamp.Client
 {
-    public partial class WampConnection
+    public partial class WampClient
     {
         /***********************************************************************************************************************/
         /********************            Trace Device GPI (General Purpose Input) Status Event               *******************/

@@ -185,7 +185,7 @@
     <Compile Include="TraceDeviceGPOStatusEvent.cs" />
     <Compile Include="TraceDeviceRegistrationEvent.cs" />
     <Compile Include="TraceOpenDoorEvent.cs" />
-    <Compile Include="WampConnection.cs" />
+    <Compile Include="WampClient.cs" />
     <Compile Include="WampEvent.cs" />
     <Compile Include="WampServices.cs" />
   </ItemGroup>

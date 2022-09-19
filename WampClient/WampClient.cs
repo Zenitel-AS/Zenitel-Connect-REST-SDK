@@ -22,7 +22,7 @@ namespace Wamp.Client
         public string token_type { get; set; }
     }
 
-    public partial class WampConnection
+    public partial class WampClient
     {
         /// <summary>This string defines the port number used for WAMP encrypted communication</summary>
         public const string WampEncryptedPort   = "8086";
@@ -149,7 +149,7 @@ namespace Wamp.Client
 
  
         /// <summary>Zenitel Link Server Access Password</summary>
-        public string Password = "alphaadmin";
+        public string Password = "admin";
 
 
         // authenticator is created when access token is retrieved
@@ -178,6 +178,21 @@ namespace Wamp.Client
 
         /// <summary>Event Handler for logging text.</summary>
         public event EventHandler<string> OnChildLogString;
+
+        /// <summary>
+        /// Defines the actions possible for a call
+        /// </summary>
+        public enum CallAction
+        {
+            /// <summary>
+            /// Defines the call setup action
+            /// </summary>
+            setup,
+            /// <summary>
+            /// Defines the call answer action
+            /// </summary>
+            answer
+        }
 
 
         #region public methods
@@ -215,6 +230,10 @@ namespace Wamp.Client
         private bool ValidateRemoteCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors policyErrors)
         /***********************************************************************************************************************/
         {
+            string txt = " ValidateRemoteCertificate. Certificate: " + certificate.ToString() +
+                         ". Chain: " + chain.ToString() + ". PolicyErrors: " + policyErrors.ToString();
+
+            OnChildLogString?.Invoke(this, txt);
             return true;
         }
 
@@ -369,8 +388,7 @@ namespace Wamp.Client
                 // build channel
                 _wampChannel = stx.Build();
 
-                // This is also neccessary (by sample from GitHub)
-                ServicePointManager.ServerCertificateValidationCallback = (s, crt, chain, policy) => true;
+                ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateRemoteCertificate);
             }
             else
             {
