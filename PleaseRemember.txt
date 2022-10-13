@@ -1,0 +1,6 @@
+
+!!! NB
+Please remember to extract packages.zip to directory packages
+The solution has been developed using Visual Studio 2019
+
+

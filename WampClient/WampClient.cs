@@ -22,6 +22,9 @@ namespace Wamp.Client
         public string token_type { get; set; }
     }
 
+    /// <summary>
+    /// This class implements a client connection using the WAMP protocol
+    /// </summary>
     public partial class WampClient
     {
         /// <summary>This string defines the port number used for WAMP encrypted communication</summary>
