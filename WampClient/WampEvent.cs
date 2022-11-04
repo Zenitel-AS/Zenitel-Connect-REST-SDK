@@ -41,13 +41,39 @@ namespace Wamp.Client
         public class wamp_call_element
         {
             /// <summary>
+            /// This attribute defines the unique Identification of the call 
+            /// </summary>
+            public string call_id { get; set; }
+
+            /// <summary>
+            /// This attribute defines the unique Identification of the call queueu the call is a member of 
+            /// </summary>
+            public string call_queueid { get; set; }
+
+            /// <summary>
+            /// This attribute defines the type of the call 
+            /// </summary>
+            public string call_type { get; set; }
+
+            /// <summary>
             /// This attribute defines the caller device of the call 
             /// </summary>
             public string from_dirno { get; set; }
+
             /// <summary>
-            /// This attribute defines the called device of the call 
+            /// This attribute defines the caller device of the call 
             /// </summary>
-            public string to_dirno { get; set; }
+            public string from_leg_id { get; set; }
+
+            /// <summary>
+            /// This attribute defines priority of the call 
+            /// </summary>
+            public string priority { get; set; }
+
+            /// <summary>
+            /// This attribute defines the reason for the call event 
+            /// </summary>
+            public string reason { get; set; }
 
             /// <summary>
             /// This attribute defines the calling state of the call 
@@ -55,21 +81,41 @@ namespace Wamp.Client
             public string state { get; set; }
 
             /// <summary>
-            /// This attribute defines the unique Identification of the call 
+            /// This attribute defines the called device of the call 
             /// </summary>
-            public string id { get; set; }
+            public string to_dirno { get; set; }
+
+            /// <summary>
+            /// This attribute defines the called device of the call 
+            /// </summary>
+            public string to_dirno_current { get; set; }
         }
 
 
         /// <summary>
-        /// This class defines a call queue
+        /// This class defines a call leg
         /// </summary>
-        public class wamp_call_queue_element
+        public class wamp_call_leg_element
         {
             /// <summary>
             /// This list defines the directory number of the operators, who can answer a call in the queue. 
             /// </summary>
-            public List<int> agents { get; set; }
+            public string call_id { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string call_type { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string channel { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string dirno { get; set; }
 
             /// <summary>
             /// Defines the directory number of the calling device.
@@ -77,44 +123,34 @@ namespace Wamp.Client
             public string from_dirno { get; set; }
 
             /// <summary>
-            /// Channel id. Can be used for hanging up the call.
+            /// 
             /// </summary>
-            public string from_id { get; set; }
+            public string leg_id { get; set; }
 
             /// <summary>
-            /// Defines the cause for leaving the queue (abandon, answered, pichup).
+            /// 
             /// </summary>
-            public string leave_reason { get; set; }
+            public string leg_role { get; set; }
 
             /// <summary>
-            /// Position in the queue.
+            /// 
             /// </summary>
-            public int position { get; set; }
+            public string priority { get; set; }
 
             /// <summary>
-            /// Directory number of the call queue.
+            /// 
             /// </summary>
-            public string queue_dirno { get; set; }
-
-            /// <summary>
-            /// Number of calls in the queue.
-            /// </summary>
-            public int queue_size { get; set; }
-
-            /// <summary>
-            /// The number of seconds the call has been queued
-            /// </summary>
-            public int queue_time { get; set; }
-
-            /// <summary>
-            /// The timestamp in UTC when the call was entered in the queue.
-            /// </summary>
-            public string start_time { get; set; }
+            public string reason { get; set; }
 
             /// <summary>
             /// Current state of the call in the queueu (join/leave)
             /// </summary>
             public string state { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string to_dirno { get; set; }
         }
 
 

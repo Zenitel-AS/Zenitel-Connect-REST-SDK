@@ -238,7 +238,7 @@ namespace Rest.Api.Client
         /// <summary>
         /// This attribute is the ID of the call 
         /// </summary>
-        public string id { get; set; }
+        public string call_id { get; set; }
 
         /// <summary>
         /// This attribute defines the action to be execured ("setup"/"answer") 
@@ -252,7 +252,7 @@ namespace Rest.Api.Client
         /// <param name="callAction">Defines the action to be executed ("setup"/"answer").</param>
         public restapi_POST_callsId_element(string callId, string callAction)
         {
-            id = callId;
+            call_id = callId;
             action = callAction;
         }
     }
@@ -318,6 +318,68 @@ namespace Rest.Api.Client
         /// </summary>
         public string state { get; set; }
     }
+
+    /// <summary>
+    /// This class defines a call leg
+    /// </summary>
+    public class restapi_call_leg_element
+    {
+        /// <summary>
+        /// This list defines the directory number of the operators, who can answer a call in the queue. 
+        /// </summary>
+        public string call_id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string call_type { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string channel { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string dirno { get; set; }
+
+        /// <summary>
+        /// Defines the directory number of the calling device.
+        /// </summary>
+        public string from_dirno { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string leg_id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string leg_role { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string priority { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string reason { get; set; }
+
+        /// <summary>
+        /// Current state of the call in the queueu (join/leave)
+        /// </summary>
+        public string state { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string to_dirno { get; set; }
+    }
+
 
 
     /// <summary>
@@ -420,7 +482,9 @@ namespace Rest.Api.Client
         //private const string GetRespApiCalls = "api/calls";
         private const string DeleteRestApiCalls = "api/calls";
         private const string DeleteRestApiCallsCallId = "api/calls/call/";
-        private const string GetRespApiQueues = "api/queues";
+        private const string GetRestApiQueues = "api/queues";
+        public const string  GetRestApiCallLegs = "api/call_legs";
+
 
         // DEVICE
         private const string PostRestApiDevicesGposGpoId = "api/devices/device/gpos/gpo";
@@ -452,8 +516,8 @@ namespace Rest.Api.Client
             // REST API Client Constructor
             Token = string.Empty;
             ConnectServerAddr = "169.254.1.5";
-            UserName = "admin";
-            Password = "admin";
+            UserName = string.Empty;
+            Password = string.Empty;
             OnDebugString?.Invoke(this, "RestApiClient constructor invoked.");
         }
 
@@ -529,7 +593,7 @@ namespace Rest.Api.Client
                         {
                             Token = json_result.access_token;
                             completedOk = true;
-                            OnDebugString?.Invoke(this, "restApiClient.Authentication. Token: " + json_result.access_token);
+//                            OnDebugString?.Invoke(this, "restApiClient.Authentication. Token: " + json_result.access_token);
                         }
                     }
                 }
@@ -914,6 +978,75 @@ namespace Rest.Api.Client
 
 
         /// <summary>
+        /// This method requests a list of call legs registered at the Zenitel Connect Platform. The returned list may be filtered (reduced)
+        /// by specifying the filtering parameters. A filtering parameter not being used is specified as an empty string. 
+        /// </summary>
+        /// <param name="fromDirNo">Only return calls having this directory number as member.</param>
+        /// <param name="toDirNo">Only return the call having this call identification.</param>
+        /// <param name="dirNo">Only return calls being in the specified state.</param>
+        /// <param name="legId">Only return calls being in the specified state.</param>
+        /// <param name="callId">Only return calls being in the specified state.</param>
+        /// <param name="State">Only return calls being in the specified state.</param>
+        /// <param name="legRole">Only return calls being in the specified state.</param>
+        /// <returns>The method returns a list of calls according to the filtering specified via the parameters.</returns>
+        /***********************************************************************************************************************/
+        public List<restapi_call_leg_element> requestCallLegs(string fromDirNo, string toDirNo, string dirNo, string legId,
+                                                              string callId, string State, string legRole)
+        /***********************************************************************************************************************/
+        {
+            List<restapi_call_leg_element> callLegList = null;
+
+            try
+            {
+                bool useEncryption = RestApiPortNumber.Equals(HttpEncryptedPort);
+
+                string uriStr = ((useEncryption) ? ("https://" + ConnectServerAddr + ":" + RestApiPortNumber) :
+                                                   ("http://" + ConnectServerAddr)) +
+                                                    "/" + GetRestApiCallLegs;
+
+                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create(uriStr);
+
+                rq.Method = "GET";
+                rq.ContentType = "application/json";
+                rq.Accept = "application/json";
+                rq.Timeout = 5000;
+                rq.Headers.Add("Authorization", "Bearer " + Token);
+
+                rq.Headers.Add("from_dirno", fromDirNo);
+                rq.Headers.Add("to_dirno", toDirNo);
+                rq.Headers.Add("dirno", dirNo);
+                rq.Headers.Add("leg_id", legId);
+                rq.Headers.Add("call_id", callId);
+                rq.Headers.Add("state", State);
+                rq.Headers.Add("leg_role", legRole);
+
+                HttpWebResponse res = (HttpWebResponse)rq.GetResponse();
+
+                if (res.StatusCode == HttpStatusCode.OK)
+                {
+                    var resstring = new StreamReader(res.GetResponseStream()).ReadToEnd();
+
+                    callLegList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<restapi_call_leg_element>>(resstring);
+
+                    OnDebugString?.Invoke(this, "restApiClient.GET_Calls. OK: " + resstring);
+                }
+                else
+                {
+                    OnDebugString?.Invoke(this, "restApiClient.GET_Calls. " + "http request error - " + res.StatusCode + " " + res.StatusDescription);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string txt = "restApiClient.requestCallLegs. Exception: " + ex.ToString();
+                OnDebugString?.Invoke(this, txt);
+            }
+
+            return callLegList;
+        }
+
+
+        /// <summary>
         /// This class defines the DELETE call request.
         /// </summary>
         public class restapi_DELETE_calls_element
@@ -1016,7 +1149,7 @@ namespace Rest.Api.Client
             /// <summary>
             /// This attribute defines the id of the call to be deleted.
             /// </summary>
-            public string id { get; set; }
+            public string call_id { get; set; }
 
             /// <summary>
             /// This method is the construvtor of the restapi_DELETE_callId_element class.
@@ -1024,7 +1157,7 @@ namespace Rest.Api.Client
             /// <param name="CallId">Defines the ID of the call.</param>
             public restapi_DELETE_callId_element(string CallId)
             {
-                id = CallId;
+                call_id = CallId;
             }
         }
 
@@ -1123,7 +1256,7 @@ namespace Rest.Api.Client
 
                 string uriStr = ((useEncryption) ? ("https://" + ConnectServerAddr + ":" + RestApiPortNumber) :
                                                    ("http://" + ConnectServerAddr)) +
-                                                    "/" + GetRespApiQueues;
+                                                    "/" + GetRestApiQueues;
 
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create(uriStr);
 

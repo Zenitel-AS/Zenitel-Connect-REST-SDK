@@ -35,7 +35,7 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <HelpTitle>A Sandcastle Documented Class Library</HelpTitle>
-    <HelpFileVersion>1.0.2.5</HelpFileVersion>
+    <HelpFileVersion>1.0.3.0</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <RootNamespaceContainer>True</RootNamespaceContainer>

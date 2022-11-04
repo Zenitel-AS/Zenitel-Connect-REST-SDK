@@ -67,6 +67,10 @@ namespace Wamp.Client
         //DELETE api/calls
         public const string DeleteWampCalls = "com.zenitel.calls.delete";
 
+        /// <summary>Zenitel Link Path for retrieving the Call Legs.</summary>
+        //GET api/calls_legs
+        public const string GetCallLegs = "com.zenitel.call_legs";
+
         /// <summary>Zenitel Link Path for deleting a call using call ID.</summary>
         //DELETE api/calls/call{call_id}
         public const string DeleteWampCallsCallId = "com.zenitel.calls.call.delete";
@@ -79,7 +83,7 @@ namespace Wamp.Client
         /// Query paramters may be used to limit the selection. If multiple query parameters are provided,
         /// they are logically ANDed together which limits the selection further.</summary>
         //GET api/queues
-        public const string GetWampQueues = "com.zenitel.queues";
+        public const string GetWampQueues = "com.zenitel.call_queues";
 
         //DEVICE:
 
@@ -101,10 +105,10 @@ namespace Wamp.Client
         //EVENTS:
 
         /// <summary>Subscribe to calls. Whenever a call is initiated, an event will be published on this channel.</summary>
-        public const string TraceWampCalls = "com.zenitel.calls";
+        public const string TraceWampCalls = "com.zenitel.call";
 
-        /// <summary>Subscribe to queue call events whenever a call is joining or leaving a queue</summary>
-        public const string TraceWampQueues = "com.zenitel.queues";
+        /// <summary>Subscribe to call leg events whenever a queued call state is changed</summary>
+        public const string TraceWampCallLeg = "com.zenitel.call_leg";
 
         /// <summary>Subscribe on gpo/relay changes.</summary>
         public const string TraceWampDeviceDirnoGpo = "com.zenitel.device.{dirno}.gpo";
@@ -114,7 +118,7 @@ namespace Wamp.Client
         public const string TraceWampDeviceDirnoGpi = "com.zenitel.device.{dirno}.gpi";
 
         /// <summary>Subscribe to device state changes.</summary>
-        public const string TraceWampRegisteredDevices = "com.zenitel.system.device_accounts";
+        public const string TraceWampRegisteredDevices = "com.zenitel.system.device_account";
 
         /// <summary>Subscribe WAMP connection start event. The event is similar to
         /// https://wamp-proto.org/_static/gen/wamp_latest.html#x14-5-1-2-session-meta-events,
@@ -126,6 +130,9 @@ namespace Wamp.Client
 
         /// <summary>Dialing digit 6 in conversation will trigger an open door event.</summary>
         public const string TraceWampSystemOpenDoor = "com.zenitel.system.open_door";
+
+        /// <summary>Send dialling digit from station.</summary>
+        public const string PostWampDevicesDeviceIdKey = "com.zenitel.devices.device.key.post";
 
 
         private Timer _reconnectTimer;
@@ -148,11 +155,11 @@ namespace Wamp.Client
 
 
         /// <summary>Zenitel Link Server Access User Name</summary>
-        public string UserName = "admin";
+        public string UserName = string.Empty;
 
  
         /// <summary>Zenitel Link Server Access Password</summary>
-        public string Password = "admin";
+        public string Password = string.Empty;
 
 
         // authenticator is created when access token is retrieved
@@ -233,10 +240,10 @@ namespace Wamp.Client
         private bool ValidateRemoteCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors policyErrors)
         /***********************************************************************************************************************/
         {
-            string txt = " ValidateRemoteCertificate. Certificate: " + certificate.ToString() +
-                         ". Chain: " + chain.ToString() + ". PolicyErrors: " + policyErrors.ToString();
+            //string txt = " ValidateRemoteCertificate. Certificate: " + certificate.ToString() +
+            //             ". Chain: " + chain.ToString() + ". PolicyErrors: " + policyErrors.ToString();
 
-            OnChildLogString?.Invoke(this, txt);
+            //OnChildLogString?.Invoke(this, txt);
             return true;
         }
 
@@ -500,9 +507,9 @@ namespace Wamp.Client
             }
         }
 
- 
+
         /***********************************************************************************************************************/
-        private object GET_calls_queued(string agent, string fromDirno, string queueDirNo)
+        private object GET_call_queue_legs(string fromDirNo, string toDirNo, string dirNo, string legId, string callId, string State, string legRole)
         /***********************************************************************************************************************/
         {
             try
@@ -510,10 +517,28 @@ namespace Wamp.Client
                 // get service
                 var svc = _wampRealmProxy.Services.GetCalleeProxy<IConnectWampServices>();
 
+                // try call function
+                return svc.GET_call_legs(fromDirNo, toDirNo, dirNo, legId, callId, State, legRole);
+            }
+            catch (Exception ex)
+            {
+                OnChildLogString?.Invoke(this, "Exception in GET_calls_queue: " + ex.ToString());
+                return null;
+            }
+        }
+
+
+        /***********************************************************************************************************************/
+        private object GET_calls_queued(string queueDirNo)
+        /***********************************************************************************************************************/
+        {
+            try
+            {
+                // get service
+                var svc = _wampRealmProxy.Services.GetCalleeProxy<IConnectWampServices>();
 
                 // try call function
-                return svc.GET_calls_queued(agent, fromDirno, queueDirNo);
-
+                return svc.GET_call_queues(queueDirNo);
             }
             catch (Exception ex)
             {

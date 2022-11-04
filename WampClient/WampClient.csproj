@@ -31,6 +31,25 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\WampClient.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\WampClient.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -183,7 +202,8 @@
     <Compile Include="DeleteCalls.cs" />
     <Compile Include="PostCalls.cs" />
     <Compile Include="PostDeviceGPO.cs" />
-    <Compile Include="TraceCallQueueStatusEvent.cs" />
+    <Compile Include="PostDeviceKey.cs" />
+    <Compile Include="TraceCallLegStatusEvent.cs" />
     <Compile Include="TraceCallStatusEvent.cs" />
     <Compile Include="RequestRegisteredDevices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

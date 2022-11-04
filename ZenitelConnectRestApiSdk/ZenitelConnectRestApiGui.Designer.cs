@@ -66,7 +66,6 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxBSubscriber = new System.Windows.Forms.TextBox();
             this.btnPOSTcallId = new System.Windows.Forms.Button();
             this.btnGETCalls = new System.Windows.Forms.Button();
-            this.btnGETQueues = new System.Windows.Forms.Button();
             this.btnDELETECallId = new System.Windows.Forms.Button();
             this.btnDELETECalls = new System.Windows.Forms.Button();
             this.gbxDevice = new System.Windows.Forms.GroupBox();
@@ -83,7 +82,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.cbxDeviceGPOStatusEvent = new System.Windows.Forms.CheckBox();
             this.cbxCallStatusEvent = new System.Windows.Forms.CheckBox();
             this.cbxDeviceRegistrationEvent = new System.Windows.Forms.CheckBox();
-            this.cbxCallQueueStatusEvent = new System.Windows.Forms.CheckBox();
+            this.cbxCallLegStatusEvent = new System.Windows.Forms.CheckBox();
             this.grpbxRegistratedDevices = new System.Windows.Forms.GroupBox();
             this.btnClearList = new System.Windows.Forms.Button();
             this.dgrd_Registrations = new System.Windows.Forms.DataGridView();
@@ -98,17 +97,19 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.NetName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NetState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbxActiveCalls = new System.Windows.Forms.GroupBox();
-            this.dgrd_ActiveCalls = new System.Windows.Forms.DataGridView();
+            this.dgrdActiveCalls = new System.Windows.Forms.DataGridView();
+            this.gbxQueuedCalls = new System.Windows.Forms.GroupBox();
+            this.dgrdQueuedCalls = new System.Windows.Forms.DataGridView();
+            this.btnGETCallLegs = new System.Windows.Forms.Button();
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Destination = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CallState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CallId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gbxQueuedCalls = new System.Windows.Forms.GroupBox();
-            this.dgrdQueuedCalls = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
             this.gbxAuthentication.SuspendLayout();
             this.gbxLogging.SuspendLayout();
             this.gbxSwaggerSystem.SuspendLayout();
@@ -121,7 +122,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxNetInterfaces.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrdNetInterfaces)).BeginInit();
             this.gbxActiveCalls.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgrd_ActiveCalls)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrdActiveCalls)).BeginInit();
             this.gbxQueuedCalls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrdQueuedCalls)).BeginInit();
             this.SuspendLayout();
@@ -285,7 +286,6 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.edtUserName.Name = "edtUserName";
             this.edtUserName.Size = new System.Drawing.Size(110, 23);
             this.edtUserName.TabIndex = 6;
-            this.edtUserName.Text = "admin";
             // 
             // labPassword
             // 
@@ -304,7 +304,6 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.edtPassword.Name = "edtPassword";
             this.edtPassword.Size = new System.Drawing.Size(110, 23);
             this.edtPassword.TabIndex = 8;
-            this.edtPassword.Text = "admin";
             this.edtPassword.UseSystemPasswordChar = true;
             // 
             // gbxLogging
@@ -421,10 +420,11 @@ namespace Zenitel.Connect.RestApi.Sdk
             // gbxCallControl
             // 
             this.gbxCallControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.gbxCallControl.Controls.Add(this.label1);
+            this.gbxCallControl.Controls.Add(this.btnGETCallLegs);
             this.gbxCallControl.Controls.Add(this.grpbxPOSTCalls);
             this.gbxCallControl.Controls.Add(this.btnPOSTcallId);
             this.gbxCallControl.Controls.Add(this.btnGETCalls);
-            this.gbxCallControl.Controls.Add(this.btnGETQueues);
             this.gbxCallControl.Controls.Add(this.btnDELETECallId);
             this.gbxCallControl.Controls.Add(this.btnDELETECalls);
             this.gbxCallControl.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -507,7 +507,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxASubscriber.Name = "tbxASubscriber";
             this.tbxASubscriber.Size = new System.Drawing.Size(58, 23);
             this.tbxASubscriber.TabIndex = 32;
-            this.tbxASubscriber.Text = "141";
+            this.tbxASubscriber.Text = "101";
             this.tbxASubscriber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblBSubscriber
@@ -528,22 +528,22 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxBSubscriber.Name = "tbxBSubscriber";
             this.tbxBSubscriber.Size = new System.Drawing.Size(58, 23);
             this.tbxBSubscriber.TabIndex = 33;
-            this.tbxBSubscriber.Text = "142";
+            this.tbxBSubscriber.Text = "102";
             this.tbxBSubscriber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnPOSTcallId
             // 
-            this.btnPOSTcallId.Location = new System.Drawing.Point(160, 171);
+            this.btnPOSTcallId.Location = new System.Drawing.Point(160, 175);
             this.btnPOSTcallId.Name = "btnPOSTcallId";
             this.btnPOSTcallId.Size = new System.Drawing.Size(118, 63);
             this.btnPOSTcallId.TabIndex = 38;
-            this.btnPOSTcallId.Text = "POST\r\nCall Id\r\n(answer)";
+            this.btnPOSTcallId.Text = "POST\r\nCall Id";
             this.btnPOSTcallId.UseVisualStyleBackColor = true;
             this.btnPOSTcallId.Click += new System.EventHandler(this.btnPOSTcallId_Click);
             // 
             // btnGETCalls
             // 
-            this.btnGETCalls.Location = new System.Drawing.Point(16, 169);
+            this.btnGETCalls.Location = new System.Drawing.Point(16, 173);
             this.btnGETCalls.Name = "btnGETCalls";
             this.btnGETCalls.Size = new System.Drawing.Size(118, 63);
             this.btnGETCalls.TabIndex = 4;
@@ -551,19 +551,9 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.btnGETCalls.UseVisualStyleBackColor = true;
             this.btnGETCalls.Click += new System.EventHandler(this.btnGETCalls_Click);
             // 
-            // btnGETQueues
-            // 
-            this.btnGETQueues.Location = new System.Drawing.Point(16, 239);
-            this.btnGETQueues.Name = "btnGETQueues";
-            this.btnGETQueues.Size = new System.Drawing.Size(118, 63);
-            this.btnGETQueues.TabIndex = 37;
-            this.btnGETQueues.Text = "GET\r\nQueues";
-            this.btnGETQueues.UseVisualStyleBackColor = true;
-            this.btnGETQueues.Click += new System.EventHandler(this.btnGETQueues_Click);
-            // 
             // btnDELETECallId
             // 
-            this.btnDELETECallId.Location = new System.Drawing.Point(301, 239);
+            this.btnDELETECallId.Location = new System.Drawing.Point(301, 250);
             this.btnDELETECallId.Name = "btnDELETECallId";
             this.btnDELETECallId.Size = new System.Drawing.Size(118, 63);
             this.btnDELETECallId.TabIndex = 36;
@@ -573,7 +563,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             // btnDELETECalls
             // 
-            this.btnDELETECalls.Location = new System.Drawing.Point(301, 169);
+            this.btnDELETECalls.Location = new System.Drawing.Point(301, 173);
             this.btnDELETECalls.Name = "btnDELETECalls";
             this.btnDELETECalls.Size = new System.Drawing.Size(118, 63);
             this.btnDELETECalls.TabIndex = 16;
@@ -599,7 +589,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxDevice.Size = new System.Drawing.Size(254, 320);
             this.gbxDevice.TabIndex = 46;
             this.gbxDevice.TabStop = false;
-            this.gbxDevice.Text = "Device";
+            this.gbxDevice.Text = "Device (n/a)";
             // 
             // btnPOSTDeviceGPO
             // 
@@ -619,7 +609,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxGPIDevice.Name = "tbxGPIDevice";
             this.tbxGPIDevice.Size = new System.Drawing.Size(58, 23);
             this.tbxGPIDevice.TabIndex = 37;
-            this.tbxGPIDevice.Text = "141";
+            this.tbxGPIDevice.Text = "101";
             this.tbxGPIDevice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblGPIDevice
@@ -640,7 +630,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxGPODevice.Name = "tbxGPODevice";
             this.tbxGPODevice.Size = new System.Drawing.Size(58, 23);
             this.tbxGPODevice.TabIndex = 35;
-            this.tbxGPODevice.Text = "141";
+            this.tbxGPODevice.Text = "101";
             this.tbxGPODevice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lblGPODevice
@@ -678,7 +668,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.grbEvent.Controls.Add(this.cbxDeviceGPOStatusEvent);
             this.grbEvent.Controls.Add(this.cbxCallStatusEvent);
             this.grbEvent.Controls.Add(this.cbxDeviceRegistrationEvent);
-            this.grbEvent.Controls.Add(this.cbxCallQueueStatusEvent);
+            this.grbEvent.Controls.Add(this.cbxCallLegStatusEvent);
             this.grbEvent.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grbEvent.Location = new System.Drawing.Point(1064, 184);
             this.grbEvent.Margin = new System.Windows.Forms.Padding(2);
@@ -707,9 +697,9 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.cbxDeviceGPIStatusEvent.Location = new System.Drawing.Point(17, 187);
             this.cbxDeviceGPIStatusEvent.Margin = new System.Windows.Forms.Padding(2);
             this.cbxDeviceGPIStatusEvent.Name = "cbxDeviceGPIStatusEvent";
-            this.cbxDeviceGPIStatusEvent.Size = new System.Drawing.Size(197, 20);
+            this.cbxDeviceGPIStatusEvent.Size = new System.Drawing.Size(232, 20);
             this.cbxDeviceGPIStatusEvent.TabIndex = 31;
-            this.cbxDeviceGPIStatusEvent.Text = "Device GPI Status Event";
+            this.cbxDeviceGPIStatusEvent.Text = "Device GPI Status Event (n/a)";
             this.cbxDeviceGPIStatusEvent.UseVisualStyleBackColor = true;
             this.cbxDeviceGPIStatusEvent.CheckedChanged += new System.EventHandler(this.cbxDeviceGPIStatusEvent_CheckedChanged);
             // 
@@ -719,9 +709,9 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.cbxDeviceGPOStatusEvent.Location = new System.Drawing.Point(17, 144);
             this.cbxDeviceGPOStatusEvent.Margin = new System.Windows.Forms.Padding(2);
             this.cbxDeviceGPOStatusEvent.Name = "cbxDeviceGPOStatusEvent";
-            this.cbxDeviceGPOStatusEvent.Size = new System.Drawing.Size(204, 20);
+            this.cbxDeviceGPOStatusEvent.Size = new System.Drawing.Size(239, 20);
             this.cbxDeviceGPOStatusEvent.TabIndex = 30;
-            this.cbxDeviceGPOStatusEvent.Text = "Device GPO Status Event";
+            this.cbxDeviceGPOStatusEvent.Text = "Device GPO Status Event (n/a)";
             this.cbxDeviceGPOStatusEvent.UseVisualStyleBackColor = true;
             this.cbxDeviceGPOStatusEvent.CheckedChanged += new System.EventHandler(this.cbxDeviceGPOStatusEvent_CheckedChanged);
             // 
@@ -749,17 +739,17 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.cbxDeviceRegistrationEvent.UseVisualStyleBackColor = true;
             this.cbxDeviceRegistrationEvent.CheckedChanged += new System.EventHandler(this.cbxDeviceRegistrationEvent_CheckedChanged);
             // 
-            // cbxCallQueueStatusEvent
+            // cbxCallLegStatusEvent
             // 
-            this.cbxCallQueueStatusEvent.AutoSize = true;
-            this.cbxCallQueueStatusEvent.Location = new System.Drawing.Point(17, 64);
-            this.cbxCallQueueStatusEvent.Margin = new System.Windows.Forms.Padding(2);
-            this.cbxCallQueueStatusEvent.Name = "cbxCallQueueStatusEvent";
-            this.cbxCallQueueStatusEvent.Size = new System.Drawing.Size(197, 20);
-            this.cbxCallQueueStatusEvent.TabIndex = 28;
-            this.cbxCallQueueStatusEvent.Text = "Call Queue Status Event";
-            this.cbxCallQueueStatusEvent.UseVisualStyleBackColor = true;
-            this.cbxCallQueueStatusEvent.CheckedChanged += new System.EventHandler(this.cbxCallQueueStatusEvent_CheckedChanged);
+            this.cbxCallLegStatusEvent.AutoSize = true;
+            this.cbxCallLegStatusEvent.Location = new System.Drawing.Point(17, 64);
+            this.cbxCallLegStatusEvent.Margin = new System.Windows.Forms.Padding(2);
+            this.cbxCallLegStatusEvent.Name = "cbxCallLegStatusEvent";
+            this.cbxCallLegStatusEvent.Size = new System.Drawing.Size(197, 20);
+            this.cbxCallLegStatusEvent.TabIndex = 28;
+            this.cbxCallLegStatusEvent.Text = "Call Queue Status Event";
+            this.cbxCallLegStatusEvent.UseVisualStyleBackColor = true;
+            this.cbxCallLegStatusEvent.CheckedChanged += new System.EventHandler(this.cbxCallQueueStatusEvent_CheckedChanged);
             // 
             // grpbxRegistratedDevices
             // 
@@ -911,7 +901,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             // gbxActiveCalls
             // 
-            this.gbxActiveCalls.Controls.Add(this.dgrd_ActiveCalls);
+            this.gbxActiveCalls.Controls.Add(this.dgrdActiveCalls);
             this.gbxActiveCalls.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbxActiveCalls.Location = new System.Drawing.Point(790, 523);
             this.gbxActiveCalls.Margin = new System.Windows.Forms.Padding(2);
@@ -922,55 +912,27 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxActiveCalls.TabStop = false;
             this.gbxActiveCalls.Text = "Active Calls";
             // 
-            // dgrd_ActiveCalls
+            // dgrdActiveCalls
             // 
-            this.dgrd_ActiveCalls.AllowUserToAddRows = false;
-            this.dgrd_ActiveCalls.AllowUserToDeleteRows = false;
-            this.dgrd_ActiveCalls.AllowUserToResizeColumns = false;
-            this.dgrd_ActiveCalls.AllowUserToResizeRows = false;
-            this.dgrd_ActiveCalls.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dgrd_ActiveCalls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgrd_ActiveCalls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgrdActiveCalls.AllowUserToAddRows = false;
+            this.dgrdActiveCalls.AllowUserToDeleteRows = false;
+            this.dgrdActiveCalls.AllowUserToResizeColumns = false;
+            this.dgrdActiveCalls.AllowUserToResizeRows = false;
+            this.dgrdActiveCalls.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dgrdActiveCalls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgrdActiveCalls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Source,
             this.Destination,
             this.CallState,
             this.CallId});
-            this.dgrd_ActiveCalls.Location = new System.Drawing.Point(15, 24);
-            this.dgrd_ActiveCalls.Margin = new System.Windows.Forms.Padding(2);
-            this.dgrd_ActiveCalls.Name = "dgrd_ActiveCalls";
-            this.dgrd_ActiveCalls.RowHeadersWidth = 51;
-            this.dgrd_ActiveCalls.RowTemplate.Height = 24;
-            this.dgrd_ActiveCalls.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgrd_ActiveCalls.Size = new System.Drawing.Size(602, 186);
-            this.dgrd_ActiveCalls.TabIndex = 17;
-            // 
-            // Source
-            // 
-            this.Source.HeaderText = "Source";
-            this.Source.MinimumWidth = 50;
-            this.Source.Name = "Source";
-            this.Source.Width = 70;
-            // 
-            // Destination
-            // 
-            this.Destination.HeaderText = "Destination";
-            this.Destination.MinimumWidth = 90;
-            this.Destination.Name = "Destination";
-            this.Destination.Width = 125;
-            // 
-            // CallState
-            // 
-            this.CallState.HeaderText = "Call State";
-            this.CallState.MinimumWidth = 100;
-            this.CallState.Name = "CallState";
-            this.CallState.Width = 115;
-            // 
-            // CallId
-            // 
-            this.CallId.HeaderText = "Call ID";
-            this.CallId.MinimumWidth = 250;
-            this.CallId.Name = "CallId";
-            this.CallId.Width = 300;
+            this.dgrdActiveCalls.Location = new System.Drawing.Point(15, 24);
+            this.dgrdActiveCalls.Margin = new System.Windows.Forms.Padding(2);
+            this.dgrdActiveCalls.Name = "dgrdActiveCalls";
+            this.dgrdActiveCalls.RowHeadersWidth = 51;
+            this.dgrdActiveCalls.RowTemplate.Height = 24;
+            this.dgrdActiveCalls.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgrdActiveCalls.Size = new System.Drawing.Size(602, 186);
+            this.dgrdActiveCalls.TabIndex = 17;
             // 
             // gbxQueuedCalls
             // 
@@ -1007,16 +969,54 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrdQueuedCalls.Size = new System.Drawing.Size(602, 128);
             this.dgrdQueuedCalls.TabIndex = 17;
             // 
+            // btnGETCallLegs
+            // 
+            this.btnGETCallLegs.Location = new System.Drawing.Point(16, 250);
+            this.btnGETCallLegs.Name = "btnGETCallLegs";
+            this.btnGETCallLegs.Size = new System.Drawing.Size(118, 60);
+            this.btnGETCallLegs.TabIndex = 44;
+            this.btnGETCallLegs.Text = "GET\r\nCall Legs";
+            this.btnGETCallLegs.UseVisualStyleBackColor = true;
+            this.btnGETCallLegs.Click += new System.EventHandler(this.btnGETCallLegs_Click);
+            // 
+            // Source
+            // 
+            this.Source.HeaderText = "Call from";
+            this.Source.MinimumWidth = 130;
+            this.Source.Name = "Source";
+            this.Source.Width = 130;
+            // 
+            // Destination
+            // 
+            this.Destination.HeaderText = "Call to";
+            this.Destination.MinimumWidth = 130;
+            this.Destination.Name = "Destination";
+            this.Destination.Width = 130;
+            // 
+            // CallState
+            // 
+            this.CallState.HeaderText = "Call State";
+            this.CallState.MinimumWidth = 130;
+            this.CallState.Name = "CallState";
+            this.CallState.Width = 130;
+            // 
+            // CallId
+            // 
+            this.CallId.HeaderText = "Call ID";
+            this.CallId.MinimumWidth = 250;
+            this.CallId.Name = "CallId";
+            this.CallId.Width = 300;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "Call from";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 120;
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 130;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 120;
+            this.dataGridViewTextBoxColumn1.Width = 130;
             // 
             // dataGridViewTextBoxColumn2
             // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Agents";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Call tp";
             this.dataGridViewTextBoxColumn2.MinimumWidth = 130;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.Width = 130;
@@ -1024,16 +1024,27 @@ namespace Zenitel.Connect.RestApi.Sdk
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.HeaderText = "State";
-            this.dataGridViewTextBoxColumn3.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 130;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 125;
+            this.dataGridViewTextBoxColumn3.Width = 130;
             // 
             // dataGridViewTextBoxColumn4
             // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Q-size";
-            this.dataGridViewTextBoxColumn4.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Call ID";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 250;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.Width = 125;
+            this.dataGridViewTextBoxColumn4.Width = 300;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(162, 160);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 14);
+            this.label1.TabIndex = 52;
+            this.label1.Text = "answer queued call";
             // 
             // MainForm
             // 
@@ -1060,6 +1071,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxLogging.PerformLayout();
             this.gbxSwaggerSystem.ResumeLayout(false);
             this.gbxCallControl.ResumeLayout(false);
+            this.gbxCallControl.PerformLayout();
             this.grpbxPOSTCalls.ResumeLayout(false);
             this.grpbxPOSTCalls.PerformLayout();
             this.gbxDevice.ResumeLayout(false);
@@ -1071,7 +1083,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxNetInterfaces.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgrdNetInterfaces)).EndInit();
             this.gbxActiveCalls.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgrd_ActiveCalls)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrdActiveCalls)).EndInit();
             this.gbxQueuedCalls.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgrdQueuedCalls)).EndInit();
             this.ResumeLayout(false);
@@ -1105,7 +1117,6 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.Label lblAction;
         private System.Windows.Forms.Button btnPOSTcallId;
         private System.Windows.Forms.Button btnGETCalls;
-        private System.Windows.Forms.Button btnGETQueues;
         private System.Windows.Forms.Button btnDELETECallId;
         private System.Windows.Forms.TextBox tbxBSubscriber;
         private System.Windows.Forms.Label lblBSubscriber;
@@ -1126,7 +1137,7 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.CheckBox cbxDeviceGPOStatusEvent;
         private System.Windows.Forms.CheckBox cbxCallStatusEvent;
         private System.Windows.Forms.CheckBox cbxDeviceRegistrationEvent;
-        private System.Windows.Forms.CheckBox cbxCallQueueStatusEvent;
+        private System.Windows.Forms.CheckBox cbxCallLegStatusEvent;
         private System.Windows.Forms.GroupBox grpbxRegistratedDevices;
         private System.Windows.Forms.Button btnClearList;
         private System.Windows.Forms.DataGridView dgrd_Registrations;
@@ -1141,17 +1152,9 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.DataGridViewTextBoxColumn NetName;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetState;
         private System.Windows.Forms.GroupBox gbxActiveCalls;
-        private System.Windows.Forms.DataGridView dgrd_ActiveCalls;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Destination;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CallState;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CallId;
+        private System.Windows.Forms.DataGridView dgrdActiveCalls;
         private System.Windows.Forms.GroupBox gbxQueuedCalls;
         private System.Windows.Forms.DataGridView dgrdQueuedCalls;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.Label labEncryption;
         private System.Windows.Forms.TextBox edtWampRealm;
         private System.Windows.Forms.Label labWampRealm;
@@ -1159,6 +1162,16 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.CheckBox chbxUnencrypted;
         private System.Windows.Forms.CheckBox chbxEncrypted;
         private System.Windows.Forms.GroupBox grpbxPOSTCalls;
+        private System.Windows.Forms.Button btnGETCallLegs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Destination;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CallState;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CallId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.Label label1;
     }
 }
 
