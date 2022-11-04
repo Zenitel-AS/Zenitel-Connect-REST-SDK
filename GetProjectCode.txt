@@ -1,4 +1,0 @@
-
-The SDK projeckt can be downloaded from 
-https://github.com/Zenitel-AS
-

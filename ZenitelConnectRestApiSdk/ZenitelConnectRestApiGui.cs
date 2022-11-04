@@ -50,7 +50,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             wampClient.OnChildLogString += wampClient_OnChildLogString;
 
             wampClient.OnWampCallStatusEvent         += wampClient_OnWampCallStatusEvent;
-            wampClient.OnWampCallQueueStatusEvent    += wampClient_OnWampCallQueueStatusEvent;
+            wampClient.OnWampCallLegStatusEvent      += wampClient_OnWampCallLegStatusEvent;
             wampClient.OnWampDeviceRegistrationEvent += wampClient_OnWampDeviceRegistrationEvent;
             wampClient.OnWampOpenDoorEvent           += wampClient_OnWampOpenDoorEvent;
             wampClient.OnWampDeviceGPIStatusEvent    += wampClient_OnWampDeviceGPIStatusEvent;
@@ -93,14 +93,14 @@ namespace Zenitel.Connect.RestApi.Sdk
                 btnDELETECalls.Enabled = true;
                 btnDELETECallId.Enabled = true;
                 btnGETCalls.Enabled = true;
-                btnGETQueues.Enabled = true;
 
-                btnPOSTDeviceGPO.Enabled = true;
-                btnGETDeviceGPOs.Enabled = true;
-                btnGETDeviceGPIOs.Enabled = true;
+                // Currently not available
+                //btnPOSTDeviceGPO.Enabled = true;
+                //btnGETDeviceGPOs.Enabled = true;
+                //btnGETDeviceGPIOs.Enabled = true;
 
                 //Clear Check Marks
-                cbxCallQueueStatusEvent.Checked = false;
+                cbxCallLegStatusEvent.Checked = false;
                 cbxCallStatusEvent.Checked = false;
                 cbxDeviceRegistrationEvent.Checked = false;
 
@@ -109,12 +109,14 @@ namespace Zenitel.Connect.RestApi.Sdk
                 cbxOpenDoorEvent.Checked = false;
 
                 //Enable Check Fields
-                cbxCallQueueStatusEvent.Enabled = true;
+                cbxCallLegStatusEvent.Enabled = true;
                 cbxCallStatusEvent.Enabled = true;
                 cbxDeviceRegistrationEvent.Enabled = true;
 
-                cbxDeviceGPOStatusEvent.Enabled = true;
-                cbxDeviceGPIStatusEvent.Enabled = true;
+                // Currently not available
+                //cbxDeviceGPOStatusEvent.Enabled = true;
+                //cbxDeviceGPIStatusEvent.Enabled = true;
+
                 cbxOpenDoorEvent.Enabled = true;
 
                 if (cbxCallStatusEvent.Checked)
@@ -122,10 +124,10 @@ namespace Zenitel.Connect.RestApi.Sdk
                     addToLog("Subscribe Call Events.");
                     wampClient.TraceCallEvent();
                 }
-                if (cbxCallQueueStatusEvent.Checked)
+                if (cbxCallLegStatusEvent.Checked)
                 {
-                    addToLog("Subscribe Call Queue Events.");
-                    wampClient.TraceCallQueueEvent();
+                    addToLog("Subscribe Call Leg Status Events.");
+                    wampClient.TraceCallLegEvent();
                 }
                 if (cbxDeviceRegistrationEvent.Checked)
                 {
@@ -146,14 +148,13 @@ namespace Zenitel.Connect.RestApi.Sdk
                 btnDELETECalls.Enabled = false;
                 btnDELETECallId.Enabled = false;
                 btnGETCalls.Enabled = false;
-                btnGETQueues.Enabled = false;
 
                 btnPOSTDeviceGPO.Enabled = false;
                 btnGETDeviceGPOs.Enabled = false;
                 btnGETDeviceGPIOs.Enabled = false;
 
                 //Enable Check Fields
-                cbxCallQueueStatusEvent.Enabled = false;
+                cbxCallLegStatusEvent.Enabled = false;
                 cbxCallStatusEvent.Enabled = false;
                 cbxDeviceRegistrationEvent.Enabled = false;
 
@@ -220,7 +221,7 @@ namespace Zenitel.Connect.RestApi.Sdk
         {
             try
             {
-                if (this.dgrd_ActiveCalls.InvokeRequired)
+                if (this.dgrdActiveCalls.InvokeRequired)
                 {
                     wampClient_OnWampCallStatusEventCallBack cb =
                         new wampClient_OnWampCallStatusEventCallBack(wampClient_OnWampCallStatusEvent);
@@ -230,13 +231,7 @@ namespace Zenitel.Connect.RestApi.Sdk
                 else
                 {
                     string txt = "SDK-Event. Call State Update: Call from " + callUpd.from_dirno + " to dir-no " + callUpd.to_dirno +
-                         ". State = " + callUpd.state + ". id = " + callUpd.id;
-
-                    WampClient.wamp_call_element newCall = new WampClient.wamp_call_element();
-                    newCall.from_dirno = callUpd.from_dirno;
-                    newCall.to_dirno = callUpd.to_dirno;
-                    newCall.state = callUpd.state;
-                    newCall.id = callUpd.id;
+                         ". State = " + callUpd.state + ". id = " + callUpd.call_id;
 
                     addToLog(txt);
 
@@ -244,100 +239,13 @@ namespace Zenitel.Connect.RestApi.Sdk
                     int i = 0;
                     int i_save = 0;
 
-                    while ((i < dgrd_ActiveCalls.Rows.Count) && (!found))
+                    if (callUpd.call_type.Equals("normal_call"))
                     {
-                        if (string.Compare(dgrd_ActiveCalls.Rows[i].Cells[3].Value.ToString(), newCall.id) == 0)
+                        addToLog("Normal Call");
+
+                        while ((i < dgrdActiveCalls.Rows.Count) && (!found))
                         {
-                            found = true;
-                            i_save = i;
-                        }
-                        i++;
-                    }
-
-                    if (found)
-                    {
-                        addToLog(string.Format("Call Found at index: {0}", i_save));
-
-                        if (string.Compare(newCall.state, "call_ended") == 0)
-                        {
-                            dgrd_ActiveCalls.Rows.RemoveAt(i_save);
-                        }
-                        else
-                        {
-                            if (newCall.from_dirno != string.Empty)
-                            {
-                                dgrd_ActiveCalls.Rows[i_save].Cells[0].Value = newCall.from_dirno;
-                            }
-                            if (newCall.to_dirno != string.Empty)
-                            {
-                                dgrd_ActiveCalls.Rows[i_save].Cells[1].Value = newCall.to_dirno;
-                            }
-                            if (newCall.state != string.Empty)
-                            {
-                                dgrd_ActiveCalls.Rows[i_save].Cells[2].Value = newCall.state;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (string.Compare(newCall.state, "call_ended") == 0)
-                        {
-                            // Call already cleared
-                        }
-                        else
-                        {
-                            // Insert new call
-                            string[] row = { newCall.from_dirno, newCall.to_dirno, newCall.state, newCall.id };
-                            dgrd_ActiveCalls.Rows.Add(row);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string txt = "Exception in wampClient_OnWampCallStatusEvent: " + ex.ToString();
-                addToLog(txt);
-            }
-        }
-
-
-        private delegate void wampClient_OnWampCallQueueStatusEventCallBack(object sender, WampClient.wamp_call_queue_element callQueueUpd);
-
-        /***********************************************************************************************************************/
-        private void wampClient_OnWampCallQueueStatusEvent(object sender, WampClient.wamp_call_queue_element callQueueUpd)
-        /***********************************************************************************************************************/
-        {
-            try
-            {
-                if (InvokeRequired)
-                {
-                    wampClient_OnWampCallQueueStatusEventCallBack cb =
-                       new wampClient_OnWampCallQueueStatusEventCallBack(wampClient_OnWampCallQueueStatusEvent);
-
-                    this.Invoke(cb, new object[] { sender, callQueueUpd });
-                }
-                else
-                {
-
-                    if (callQueueUpd.agents != null)
-                    {
-                        string txt = "SDK-Event. Call Queue State Update: Agents: [" + string.Join(",", callQueueUpd.agents) +
-                                     "]. Call from " + callQueueUpd.from_dirno +
-                                     ". From_id: " + callQueueUpd.from_id +
-                                     ". Position: " + callQueueUpd.position.ToString() +
-                                     ". Queue_size: " + callQueueUpd.queue_size.ToString() +
-                                     ". Queued_time: " + callQueueUpd.queue_time.ToString() +
-                                     ". Start-time: " + callQueueUpd.start_time +
-                                     ". State: " + callQueueUpd.state;
-                        addToLog(txt);
-
-                        bool found = false;
-                        int i = 0;
-                        int i_save = 0;
-
-                        while ((i < dgrdQueuedCalls.Rows.Count) && (!found))
-                        {
-                            if (string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callQueueUpd.from_dirno) == 0)
+                            if (string.Compare(dgrdActiveCalls.Rows[i].Cells[3].Value.ToString(), callUpd.call_id) == 0)
                             {
                                 found = true;
                                 i_save = i;
@@ -349,42 +257,346 @@ namespace Zenitel.Connect.RestApi.Sdk
                         {
                             addToLog(string.Format("Call Found at index: {0}", i_save));
 
+                            if (callUpd.state.Equals("ended"))
                             {
-                                if (string.Compare(callQueueUpd.state, "leave") == 0)
+                                dgrdActiveCalls.Rows.RemoveAt(i_save);
+                            }
+                            else
+                            {
+                                addToLog("Normal Call - Update call.");
+
+                                // Update call found
+                                if (!string.IsNullOrEmpty(callUpd.from_dirno))
                                 {
-                                    dgrdQueuedCalls.Rows.RemoveAt(i_save);
+                                    dgrdActiveCalls.Rows[i_save].Cells[0].Value = callUpd.from_dirno;
                                 }
-                                else
+                                if (!string.IsNullOrEmpty(callUpd.to_dirno))
                                 {
-                                    if (callQueueUpd.from_dirno != string.Empty)
-                                    {
-                                        dgrdQueuedCalls.Rows[i_save].Cells[0].Value = callQueueUpd.from_dirno;
-                                    }
-                                    if (callQueueUpd.agents.Count > 0)
-                                    {
-                                        dgrdQueuedCalls.Rows[i_save].Cells[1].Value = string.Join(",", callQueueUpd.agents);
-                                    }
-                                    if (callQueueUpd.state != string.Empty)
-                                    {
-                                        dgrdQueuedCalls.Rows[i_save].Cells[2].Value = callQueueUpd.state;
-                                    }
-                                    if (callQueueUpd.queue_size > 0)
-                                    {
-                                        dgrdQueuedCalls.Rows[i_save].Cells[3].Value = callQueueUpd.queue_size;
-                                    }
+                                    dgrdActiveCalls.Rows[i_save].Cells[1].Value = callUpd.to_dirno_current;
+                                }
+                                if (!string.IsNullOrEmpty(callUpd.state))
+                                {
+                                    dgrdActiveCalls.Rows[i_save].Cells[2].Value = callUpd.state;
+                                }
+                                if (!string.IsNullOrEmpty(callUpd.call_id))
+                                {
+                                    dgrdActiveCalls.Rows[i_save].Cells[3].Value = callUpd.call_id;
                                 }
                             }
                         }
                         else
                         {
-                            // Insert new call
-                            string[] row = { callQueueUpd.from_dirno, string.Join(",", callQueueUpd.agents), callQueueUpd.state, callQueueUpd.queue_size.ToString() };
-                            dgrdQueuedCalls.Rows.Add(row);
+                            addToLog("Normal Call - New call.");
+
+                            // This is a new call
+                            if (!callUpd.state.Equals("ended"))
+                            {
+                                addToLog("Normal Call - Not a call ended.");
+
+                                // Do not insert a call that has already been removed
+                                // See if transfered from queueud call to narmal call
+
+                                found = false;
+                                i = 0;
+                                i_save = 0;
+
+
+                                // See if call id is in the queued calls
+                                while ((i < dgrdQueuedCalls.Rows.Count) && (!found))
+                                {
+                                    if (string.Compare(dgrdQueuedCalls.Rows[i].Cells[3].Value.ToString(), callUpd.call_id) == 0)
+                                    {
+
+                                        if ((string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callUpd.from_dirno) == 0) &&
+                                            (string.Compare(dgrdQueuedCalls.Rows[i].Cells[1].Value.ToString(), callUpd.to_dirno) == 0))
+                                        {
+                                            found = true;
+                                            i_save = i;
+                                        }
+                                    }
+                                    i++;
+                                }
+
+                                if (found)
+                                {
+                                    addToLog("Normal Call. Call removed from queued calls.");
+                                    dgrdQueuedCalls.Rows.RemoveAt(i_save);
+                                }
+                                else
+                                {
+                                    addToLog("Normal Call - Not in the queued calls.");
+                                }
+
+                                string[] row = { callUpd.from_dirno, callUpd.to_dirno_current, callUpd.state, callUpd.call_id };
+                                dgrdActiveCalls.Rows.Add(row);
+                            }
                         }
                     }
-                    else
+
+                    else if (callUpd.call_type.Equals("queue_call"))
                     {
-                        addToLog("No agents in message !!");
+                        found = false;
+                        i = 0;
+                        i_save = 0;
+
+                        while ((i < dgrdQueuedCalls.Rows.Count) && (!found))
+                        {
+                            if ((string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callUpd.from_dirno) == 0) &&
+                                (string.Compare(dgrdQueuedCalls.Rows[i].Cells[1].Value.ToString(), callUpd.to_dirno) == 0))
+                            {
+                                found = true;
+                                i_save = i;
+                            }
+                            i++;
+                        }
+
+                        if (found)
+                        {
+                            addToLog(string.Format("Call Found at index: {0}", i_save));
+
+                            if (callUpd.state.Equals("in_call") ||
+                                callUpd.state.Equals("ended"))
+                            {
+                                addToLog("Queued Call. Call is removed.");
+                                dgrdQueuedCalls.Rows.RemoveAt(i_save);
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(callUpd.from_dirno))
+                                {
+                                    dgrdQueuedCalls.Rows[i_save].Cells[0].Value = callUpd.from_dirno;
+                                }
+                                if (!string.IsNullOrEmpty(callUpd.to_dirno))
+                                {
+                                    dgrdQueuedCalls.Rows[i_save].Cells[1].Value = callUpd.to_dirno;
+                                }
+                                if (!string.IsNullOrEmpty(callUpd.state))
+                                {
+                                    dgrdQueuedCalls.Rows[i_save].Cells[2].Value = callUpd.state;
+                                }
+                                if (!string.IsNullOrEmpty(callUpd.call_id))
+                                {
+                                    dgrdQueuedCalls.Rows[i_save].Cells[3].Value = callUpd.call_id;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!callUpd.state.Equals("ended"))
+                            {
+                                string[] row = { callUpd.from_dirno, callUpd.to_dirno, callUpd.state, callUpd.call_id };
+                                dgrdQueuedCalls.Rows.Add(row);
+                            }
+                        }
+                    }
+                }
+ 
+            }
+            catch (Exception ex)
+            {
+                string txt = "Exception in wampClient_OnWampCallStatusEvent: " + ex.ToString();
+                addToLog(txt);
+            }
+        }
+
+
+
+        private delegate void _wampConnection_OnWampCallLegStatusEventCallBack(object sender, WampClient.wamp_call_leg_element callLegStatus);
+
+        /***********************************************************************************************************************/
+        private void wampClient_OnWampCallLegStatusEvent(object sender, WampClient.wamp_call_leg_element callLegStatus)
+        /***********************************************************************************************************************/
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    _wampConnection_OnWampCallLegStatusEventCallBack cb =
+                       new _wampConnection_OnWampCallLegStatusEventCallBack(wampClient_OnWampCallLegStatusEvent);
+
+                    this.Invoke(cb, new object[] { sender, callLegStatus });
+                }
+                else
+                {
+                    string txt = "SDK. Call Leg State Update: " +
+                                 "  call_id " + callLegStatus.call_id +
+                                 ". call_type: " + callLegStatus.call_type +
+                                 ". channel: " + callLegStatus.channel +
+                                 ". dirno: " + callLegStatus.dirno +
+                                 ". from_dirno: " + callLegStatus.from_dirno +
+                                 ". leg_id: " + callLegStatus.leg_id +
+                                 ". leg_role: " + callLegStatus.leg_role +
+                                 ". priority: " + callLegStatus.priority +
+                                 ". reason: " + callLegStatus.reason +
+                                 ". state: " + callLegStatus.state +
+                                 ". to_dirno: " + callLegStatus.to_dirno;
+
+                    addToLog(txt);
+
+
+                    bool found = false;
+                    int i = 0;
+                    int i_save = 0;
+
+                    if (callLegStatus.call_type.Equals("normal_call"))
+                    {
+                        addToLog("Normal Call");
+
+                        if (callLegStatus.leg_role.Equals("callee"))
+                        {
+
+                            while ((i < dgrdActiveCalls.Rows.Count) && (!found))
+                            {
+                                if (string.Compare(dgrdActiveCalls.Rows[i].Cells[3].Value.ToString(), callLegStatus.call_id) == 0)
+                                {
+                                    found = true;
+                                    i_save = i;
+                                }
+                                i++;
+                            }
+
+                            if (found)
+                            {
+                                addToLog(string.Format("Normal Call Found at index: {0}", i_save));
+
+                                if (callLegStatus.state.Equals("ended"))
+                                {
+                                    addToLog("Normal Call - Ended");
+                                    dgrdActiveCalls.Rows.RemoveAt(i_save);
+                                }
+                                else
+                                {
+                                    addToLog("Normal Call - Update call.");
+
+                                    // Update call found
+                                    if (!string.IsNullOrEmpty(callLegStatus.from_dirno))
+                                    {
+                                        dgrdActiveCalls.Rows[i_save].Cells[0].Value = callLegStatus.from_dirno;
+                                    }
+                                    if (!string.IsNullOrEmpty(callLegStatus.to_dirno))
+                                    {
+                                        dgrdActiveCalls.Rows[i_save].Cells[1].Value = callLegStatus.to_dirno;
+                                    }
+                                    if (!string.IsNullOrEmpty(callLegStatus.state))
+                                    {
+                                        dgrdActiveCalls.Rows[i_save].Cells[2].Value = callLegStatus.state;
+                                    }
+                                    if (!string.IsNullOrEmpty(callLegStatus.call_id))
+                                    {
+                                        dgrdActiveCalls.Rows[i_save].Cells[3].Value = callLegStatus.call_id;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                addToLog("Normal Call - New call.");
+
+                                // This is a new call
+                                if (!callLegStatus.state.Equals("ended"))
+                                {
+                                    addToLog("Normal Call - Not a call ended.");
+
+                                    // Do not insert a call that has already been removed
+                                    // See if transfered from queueud call to narmal call
+
+                                    found = false;
+                                    i = 0;
+                                    i_save = 0;
+
+
+                                    // See if call id is in the queued calls
+                                    while ((i < dgrdQueuedCalls.Rows.Count) && (!found))
+                                    {
+                                        if (string.Compare(dgrdQueuedCalls.Rows[i].Cells[3].Value.ToString(), callLegStatus.call_id) == 0)
+                                        {
+
+                                            if ((string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callLegStatus.from_dirno) == 0) &&
+                                                 (string.Compare(dgrdQueuedCalls.Rows[i].Cells[1].Value.ToString(), callLegStatus.dirno) == 0))
+                                            {
+                                                found = true;
+                                                i_save = i;
+                                            }
+                                        }
+                                        i++;
+                                    }
+
+                                    if (found)
+                                    {
+                                        addToLog("Normal Call. Call removed from queued calls.");
+                                        dgrdQueuedCalls.Rows.RemoveAt(i_save);
+                                    }
+                                    else
+                                    {
+                                        addToLog("Normal Call - Not in the queued calls.");
+                                    }
+
+                                    string[] row = { callLegStatus.from_dirno, callLegStatus.dirno, callLegStatus.state, callLegStatus.call_id };
+                                    dgrdActiveCalls.Rows.Add(row);
+                                }
+                            }
+                        }
+                    }
+
+                    else if (callLegStatus.call_type.Equals("queue_call"))
+                    {
+                        addToLog("Normal Call");
+
+                        if (callLegStatus.leg_role.Equals("callee"))
+                        {
+                            found = false;
+                            i = 0;
+                            i_save = 0;
+
+                            while ((i < dgrdQueuedCalls.Rows.Count) && (!found))
+                            {
+                                if ((string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callLegStatus.from_dirno) == 0) &&
+                                     (string.Compare(dgrdQueuedCalls.Rows[i].Cells[1].Value.ToString(), callLegStatus.dirno) == 0))
+                                {
+                                    found = true;
+                                    i_save = i;
+                                }
+                                i++;
+                            }
+
+                            if (found)
+                            {
+                                addToLog(string.Format("Call Found at index: {0}", i_save));
+
+                                if (callLegStatus.state.Equals("in_call") ||
+                                     callLegStatus.state.Equals("ended"))
+                                {
+                                    addToLog("Queued Call. Call is removed.");
+                                    dgrdQueuedCalls.Rows.RemoveAt(i_save);
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(callLegStatus.from_dirno))
+                                    {
+                                        dgrdQueuedCalls.Rows[i_save].Cells[0].Value = callLegStatus.from_dirno;
+                                    }
+                                    if (!string.IsNullOrEmpty(callLegStatus.dirno))
+                                    {
+                                        dgrdQueuedCalls.Rows[i_save].Cells[1].Value = callLegStatus.dirno;
+                                    }
+                                    if (!string.IsNullOrEmpty(callLegStatus.state))
+                                    {
+                                        dgrdQueuedCalls.Rows[i_save].Cells[2].Value = callLegStatus.state;
+                                    }
+                                    if (!string.IsNullOrEmpty(callLegStatus.call_id))
+                                    {
+                                        dgrdQueuedCalls.Rows[i_save].Cells[3].Value = callLegStatus.call_id;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (!callLegStatus.state.Equals("ended"))
+                                {
+                                    string[] row = { callLegStatus.from_dirno, callLegStatus.dirno, callLegStatus.state, callLegStatus.call_id };
+                                    dgrdQueuedCalls.Rows.Add(row);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -394,6 +606,7 @@ namespace Zenitel.Connect.RestApi.Sdk
                 addToLog(txt);
             }
         }
+
 
         /***********************************************************************************************************************/
         private void wampClient_OnWampOpenDoorEvent(object sender, WampClient.wamp_open_door_event doorOpenEvent)
@@ -784,9 +997,9 @@ namespace Zenitel.Connect.RestApi.Sdk
                     int i = 0;
                     int i_save = 0;
 
-                    while ((i < (dgrd_ActiveCalls.Rows.Count)) && (!found))
+                    while ((i < (dgrdActiveCalls.Rows.Count)) && (!found))
                     {
-                        if (string.Compare(dgrd_ActiveCalls.Rows[i].Cells[3].Value.ToString(), newCall.id) == 0)
+                        if (string.Compare(dgrdActiveCalls.Rows[i].Cells[3].Value.ToString(), newCall.id) == 0)
                         {
                             found = true;
                             i_save = i;
@@ -801,21 +1014,21 @@ namespace Zenitel.Connect.RestApi.Sdk
                         if ((string.Compare(newCall.state, "call_ended") == 0) ||
                              (string.Compare(newCall.state, "canceled") == 0))
                         {
-                            dgrd_ActiveCalls.Rows.RemoveAt(i_save);
+                            dgrdActiveCalls.Rows.RemoveAt(i_save);
                         }
                         else
                         {
                             if (newCall.from_dirno != string.Empty)
                             {
-                                dgrd_ActiveCalls.Rows[i_save].Cells[0].Value = newCall.from_dirno;
+                                dgrdActiveCalls.Rows[i_save].Cells[0].Value = newCall.from_dirno;
                             }
                             if (newCall.to_dirno != string.Empty)
                             {
-                                dgrd_ActiveCalls.Rows[i_save].Cells[1].Value = newCall.to_dirno;
+                                dgrdActiveCalls.Rows[i_save].Cells[1].Value = newCall.to_dirno;
                             }
                             if (newCall.state != string.Empty)
                             {
-                                dgrd_ActiveCalls.Rows[i_save].Cells[2].Value = newCall.state;
+                                dgrdActiveCalls.Rows[i_save].Cells[2].Value = newCall.state;
                             }
                         }
                     }
@@ -829,7 +1042,7 @@ namespace Zenitel.Connect.RestApi.Sdk
                         {
                             // Insert new call
                             string[] row = { newCall.from_dirno, newCall.to_dirno, newCall.state, newCall.id };
-                            dgrd_ActiveCalls.Rows.Add(row);
+                            dgrdActiveCalls.Rows.Add(row);
                         }
                     }
                 }
@@ -838,6 +1051,122 @@ namespace Zenitel.Connect.RestApi.Sdk
             {
                 MessageBox.Show("Zenitel REST API Client not connected.");
             }
+        }
+
+
+        /***********************************************************************************************************************/
+        private void btnGETCallLegs_Click(object sender, EventArgs e)
+        /***********************************************************************************************************************/
+        {
+            try
+            {
+                if (restApiClient != null)
+                {
+                    List<restapi_call_leg_element> callLegList;
+
+                    callLegList = restApiClient.requestCallLegs("", "", "", "", "", "", "");
+
+                    if (callLegList != null)
+                    {
+                        string txt = "btnGETCallLegs_Click. Calls Leg List:";
+                        addToLog(txt);
+
+                        foreach (restapi_call_leg_element callQueued in callLegList)
+                        {
+                            txt = "SDK. Call Leg State Update: " +
+                                "  call_id " + callQueued.call_id +
+                                ". call_type: " + callQueued.call_type +
+                                ". channel: " + callQueued.channel +
+                                ". dirno: " + callQueued.dirno +
+                                ". from_dirno: " + callQueued.from_dirno +
+                                ". leg_id: " + callQueued.leg_id +
+                                ". leg_role: " + callQueued.leg_role +
+                                ". priority: " + callQueued.priority +
+                                ". reason: " + callQueued.reason +
+                                ". state: " + callQueued.state +
+                                ". to_dirno: " + callQueued.to_dirno;
+
+                            addToLog(txt);
+
+                            bool found = false;
+                            int i = 0;
+                            int i_save = 0;
+
+                            while ((i < (dgrdQueuedCalls.Rows.Count)) && (!found))
+                            {
+                                if ((string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callQueued.from_dirno) == 0) &&
+                                     (string.Compare(dgrdQueuedCalls.Rows[i].Cells[1].Value.ToString(), callQueued.dirno) == 0))
+                                {
+                                    found = true;
+                                    i_save = i;
+                                }
+                                i++;
+                            }
+
+                            if (found)
+                            {
+                                addToLog(string.Format("Call Found at index: {0}", i_save));
+
+
+                                if (callQueued.leg_role.Equals("callee"))
+                                {
+                                    if (callQueued.state.Equals("in_call") ||
+                                         callQueued.state.Equals("ended"))
+                                    {
+                                        dgrdQueuedCalls.Rows.RemoveAt(i_save);
+                                    }
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(callQueued.from_dirno))
+                                        {
+                                            dgrdQueuedCalls.Rows[i_save].Cells[0].Value = callQueued.from_dirno;
+                                        }
+                                        if (!string.IsNullOrEmpty(callQueued.dirno))
+                                        {
+                                            dgrdQueuedCalls.Rows[i_save].Cells[1].Value = callQueued.dirno;
+                                        }
+                                        if (!string.IsNullOrEmpty(callQueued.state))
+                                        {
+                                            dgrdQueuedCalls.Rows[i_save].Cells[2].Value = callQueued.state;
+                                        }
+                                        if (!string.IsNullOrEmpty(callQueued.call_id))
+                                        {
+                                            dgrdQueuedCalls.Rows[i_save].Cells[3].Value = callQueued.call_id;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (callQueued.leg_role.Equals("callee"))
+                                {
+
+                                    if (!callQueued.state.Equals("ended"))
+                                    {
+                                        string[] row = { callQueued.from_dirno, callQueued.dirno, callQueued.state, callQueued.call_id };
+                                        dgrdQueuedCalls.Rows.Add(row);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string txt = "SDK. Call Leg List is empty.";
+                        addToLog(txt);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Zenitel REST API Client not connected.");
+                }
+            }
+            catch (Exception ex)
+            {
+                string txt = "btnGETCallLegs_Click. Exception: " + ex.ToString();
+                addToLog(txt);
+            }
+
         }
 
 
@@ -881,7 +1210,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             {
                 if (restApiClient != null)
                 {
-                    DataGridViewSelectedRowCollection selRow = dgrd_ActiveCalls.SelectedRows;
+                    DataGridViewSelectedRowCollection selRow = dgrdQueuedCalls.SelectedRows;
 
                     if ((selRow != null) && (selRow.Count == 1))
                     {
@@ -932,9 +1261,24 @@ namespace Zenitel.Connect.RestApi.Sdk
             {
                 if (restApiClient != null)
                 {
-                        DataGridViewSelectedRowCollection selRow = dgrd_ActiveCalls.SelectedRows;
+                    bool singleRowSelected = false;
+
+                    DataGridViewSelectedRowCollection selRow = dgrdActiveCalls.SelectedRows;
 
                     if ((selRow != null) && (selRow.Count == 1))
+                    {
+                        singleRowSelected = true;
+                    }
+                    else
+                    {
+                        selRow = dgrdQueuedCalls.SelectedRows;
+                        if ((selRow != null) && (selRow.Count == 1))
+                        {
+                            singleRowSelected = true;
+                        }
+                    }
+
+                    if (singleRowSelected)
                     {
                         string source = selRow[0].Cells[0].Value.ToString();
                         restapi_response restApiResp =  restApiClient.DELETE_Calls(source);
@@ -969,9 +1313,24 @@ namespace Zenitel.Connect.RestApi.Sdk
             {
                 if (restApiClient != null)
                 {
-                        DataGridViewSelectedRowCollection selRow = dgrd_ActiveCalls.SelectedRows;
+                    bool singleRowSelected = false;
+
+                    DataGridViewSelectedRowCollection selRow = dgrdActiveCalls.SelectedRows;
 
                     if ((selRow != null) && (selRow.Count == 1))
+                    {
+                        singleRowSelected = true;
+                    }
+                    else
+                    {
+                        selRow = dgrdQueuedCalls.SelectedRows;
+                        if ((selRow != null) && (selRow.Count == 1))
+                        {
+                            singleRowSelected = true;
+                        }
+                    }
+
+                    if (singleRowSelected)
                     {
                         string callId = selRow[0].Cells[3].Value.ToString();
                         restapi_response restapi_Response = restApiClient.DELETE_CallId(callId);
@@ -1000,113 +1359,8 @@ namespace Zenitel.Connect.RestApi.Sdk
 
 
         /***********************************************************************************************************************/
-        private void btnGETQueues_Click(object sender, EventArgs e)
-        /***********************************************************************************************************************/
-        {
-            try
-            {
-                if (restApiClient != null)
-                {
-                    List<restapi_call_queue_element> callQueuedList;
-                    callQueuedList = restApiClient.GET_Queues("", "", "");
-
-                    if (callQueuedList != null)
-                    {
-                        string txt = "SDK. Calls Queued List:";
-                        addToLog(txt);
-
-                        foreach (restapi_call_queue_element callQueued in callQueuedList)
-                        {
-                            if (callQueued.agents != null)
-                            {
-                                txt = "SDK. Call Queue State Update: Agents: [" + string.Join(",", callQueued.agents) +
-                                  "]. Call from " + callQueued.from_dirno +
-                                  ". From_id: " + callQueued.from_id +
-                                  ". Position: " + callQueued.position.ToString() +
-                                  ". Queue_size: " + callQueued.queue_size.ToString() +
-                                  ". Queued_time: " + callQueued.queue_time.ToString() +
-                                  ". Start-time: " + callQueued.start_time +
-                                  ". State: " + callQueued.state;
-                                addToLog(txt);
-
-                                bool found = false;
-                                int i = 0;
-                                int i_save = 0;
-
-                                while ((i < (dgrdQueuedCalls.Rows.Count)) && (!found))
-                                {
-                                    if (string.Compare(dgrdQueuedCalls.Rows[i].Cells[0].Value.ToString(), callQueued.from_dirno) == 0)
-                                    {
-                                        found = true;
-                                        i_save = i;
-                                    }
-                                    i++;
-                                }
-
-                                if (found)
-                                {
-                                    LogMan.Instance.Log(string.Format("Call Found at index: {0}", i_save));
-
-                                    {
-                                        if (string.Compare(callQueued.state, "leave") == 0)
-                                        {
-                                            dgrdQueuedCalls.Rows.RemoveAt(i_save);
-                                        }
-                                        else
-                                        {
-                                            if (callQueued.from_dirno != string.Empty)
-                                            {
-                                                dgrdQueuedCalls.Rows[i_save].Cells[0].Value = callQueued.from_dirno;
-                                            }
-                                            if (callQueued.agents.Count > 0)
-                                            {
-                                                dgrdQueuedCalls.Rows[i_save].Cells[1].Value = string.Join(",", callQueued.agents);
-                                            }
-                                            if (callQueued.state != string.Empty)
-                                            {
-                                                dgrdQueuedCalls.Rows[i_save].Cells[2].Value = callQueued.state;
-                                            }
-                                            if (callQueued.queue_size > 0)
-                                            {
-                                                dgrdQueuedCalls.Rows[i_save].Cells[3].Value = callQueued.queue_size;
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    // Insert new call
-                                    string[] row = { callQueued.from_dirno, string.Join(",", callQueued.agents), callQueued.state, callQueued.queue_size.ToString() };
-                                    dgrdQueuedCalls.Rows.Add(row);
-                                }
-                            }
-                            else
-                            {
-                                addToLog("No agents in message !!");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        string txt = "SDK. Calls Queued List is empty.";
-                        addToLog(txt);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Zenitel REST API Client not connected.");
-                }
-            }
-            catch (Exception ex)
-            {
-                string txt = "Exception in btnGETQueues_Click: " + ex.ToString();
-                addToLog(txt);
-            }
-        }
-
-
-
         private void btnPOSTDeviceGPO_Click(object sender, EventArgs e)
+        /***********************************************************************************************************************/
         {
             try
             {
@@ -1187,37 +1441,37 @@ namespace Zenitel.Connect.RestApi.Sdk
         {
             try
             {
-                if (cbxCallQueueStatusEvent.Checked)
+                if (cbxCallLegStatusEvent.Checked)
                 {
-                    addToLog("Call Queue Status Event is check mark set.");
+                    addToLog("Call Leg Status Event is check mark set.");
 
-                    if (!wampClient.TraceCallQueueEventIsEnabled())
+                    if (!wampClient.TraceCallLegEventIsEnabled())
                     {
-                        addToLog("Enable Call Queue Status Event.");
+                        addToLog("Enable Call Leg Status Event.");
                         if (wampClient.IsConnected)
                         {
-                            wampClient.TraceCallQueueEvent();
+                            wampClient.TraceCallLegEvent();
                         }
                         else
                         {
-                            cbxCallQueueStatusEvent.Checked = false;
+                            cbxCallLegStatusEvent.Checked = false;
                             MessageBox.Show("WAMP Connection not established.");
                         }
                     }
                 }
                 else
                 {
-                    addToLog("Call Queue Status Event check mark cleared.");
-                    if (wampClient.TraceCallQueueEventIsEnabled())
+                    addToLog("Call Leg Status Event check mark cleared.");
+                    if (wampClient.TraceCallLegEventIsEnabled())
                     {
                         addToLog("Disable Call Queue Status Event.");
-                        wampClient.TraceCallQueueEventDispose();
+                        wampClient.TraceCallLegEventDispose();
                     }
                 }
             }
             catch (Exception ex)
             {
-                string txt = "Exception in cbxCallQueueStatusEvent_CheckedChanged: " + ex.ToString();
+                string txt = "Exception in cbxCallLegStatusEvent_CheckedChanged: " + ex.ToString();
                 addToLog(txt);
             }
         }
@@ -1427,5 +1681,6 @@ namespace Zenitel.Connect.RestApi.Sdk
             }
 
         }
+
     }
 }

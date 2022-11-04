@@ -112,7 +112,7 @@ namespace Wamp.Client
             {
                 Dictionary<string, object> argumentsKeywords = new Dictionary<string, object>();
 
-                argumentsKeywords["id"] = callId;
+                argumentsKeywords["call_id"] = callId;
                 argumentsKeywords["action"] = action;
 
                 RPCCallback rpcCallback = new RPCCallback();

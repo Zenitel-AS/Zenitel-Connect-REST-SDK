@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder and Tools" version="2019.11.17.0" projectFile="C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Zenitel.Connect.RestApi.Sdk.shfbproj" started="12/10/2022 10.56.01">
+<shfbBuild product="Sandcastle Help File Builder and Tools" version="2019.11.17.0" projectFile="C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Zenitel.Connect.RestApi.Sdk.shfbproj" started="03/11/2022 10.07.23">
 <buildStep step="Initializing">
 Finding tools...
 The Sandcastle tools are located in &#39;C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\&#39;
@@ -31,16 +31,16 @@ Copying XML comments files
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, English (United States))...
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
-</plugIn>    Last step completed in 00:00:00,0300
+</plugIn>    Last step completed in 00:00:00,0170
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00,0061
+    Last step completed in 00:00:00,0030
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
 [C:\Program Files (x86)\MSBuild\14.0\bin\amd64\MSBuild.exe - GenerateRefInfo.proj]
-Build started 12/10/2022 10.56.04.
+Build started 03/11/2022 10.07.25.
 Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\GenerateRefInfo.proj&quot; on node 1 (default targets).
 PrepareForBuild:
   Creating directory &quot;obj\Debug\&quot;.
@@ -60,13 +60,13 @@ Done Building Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRest
 
 Build succeeded.
 
-Time Elapsed 00:00:01.28
-    Last step completed in 00:00:02,2831
+Time Elapsed 00:00:00.61
+    Last step completed in 00:00:01,1876
 </buildStep>
 <buildStep step="TransformReflectionInfo">
 Transforming reflection output...
 [C:\Program Files (x86)\MSBuild\14.0\bin\amd64\MSBuild.exe - TransformManifest.proj]
-Build started 12/10/2022 10.56.06.
+Build started 03/11/2022 10.07.26.
 Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\TransformManifest.proj&quot; on node 1 (default targets).
 TransformManifest:
   XslTransform (v2019.11.17.0)
@@ -86,17 +86,17 @@ Done Building Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRest
 
 Build succeeded.
 
-Time Elapsed 00:00:00.97
-    Last step completed in 00:00:02,1453
+Time Elapsed 00:00:00.52
+    Last step completed in 00:00:01,0015
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00,0474
+    Last step completed in 00:00:00,0190
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
 No additional content to copy
-    Last step completed in 00:00:00,0040
+    Last step completed in 00:00:00,0020
 </buildStep>
 <buildStep step="MergeTablesOfContents">
 Merging conceptual and additional tables of contents...
@@ -105,7 +105,7 @@ Merging conceptual and additional tables of contents...
 <buildStep step="GenerateIntermediateTableOfContents">
 Generating intermediate table of contents file...
 [C:\Program Files (x86)\MSBuild\14.0\bin\amd64\MSBuild.exe - GenerateIntermediateTOC.proj]
-Build started 12/10/2022 10.56.08.
+Build started 03/11/2022 10.07.27.
 Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\GenerateIntermediateTOC.proj&quot; on node 1 (default targets).
 GenerateIntermediateTOC:
   XslTransform (v2019.11.17.0)
@@ -116,26 +116,26 @@ Done Building Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRest
 
 Build succeeded.
 
-Time Elapsed 00:00:00.26
+Time Elapsed 00:00:00.13
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:01,2352
+    Last step completed in 00:00:00,6212
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
     sandcastle.config
-    Last step completed in 00:00:00,3034
+    Last step completed in 00:00:00,1590
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
 C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\sandcastle.config
   Updating reference topic configurations.
   No conceptual content.  Removing conceptual content components.
-    Last step completed in 00:00:00,0131
+    Last step completed in 00:00:00,0070
 </buildStep>
 <buildStep step="BuildTopics">
 Building help topics...
 [C:\Program Files (x86)\MSBuild\14.0\bin\amd64\MSBuild.exe - BuildTopics.proj]
-Build started 12/10/2022 10.56.10.
+Build started 03/11/2022 10.07.28.
 Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\BuildTopics.proj&quot; on node 1 (default targets).
 BuildTopics:
   BuildAssembler (v2019.11.17.0)
@@ -152,12 +152,12 @@ Done Building Project &quot;C:\Projects\Connect Platform\Work\ZenitelConnectRest
 
 Build succeeded.
 
-Time Elapsed 00:00:16.34
-    Last step completed in 00:00:17,3844
+Time Elapsed 00:00:06.40
+    Last step completed in 00:00:06,9154
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
-    Last step completed in 00:00:00,0030
+    Last step completed in 00:00:00,0010
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for HTML Help 1 and/or website...
@@ -173,7 +173,7 @@ Processed 136 HTML files
 Sorting keywords and generating See Also indices
 Saving HTML Help 1 keyword index to C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Zenitel.Connect.RestApi.Sdk.hhk
 Saving HTML Help 1 table of contents to C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Zenitel.Connect.RestApi.Sdk.hhc
-    Last step completed in 00:00:01,3946
+    Last step completed in 00:00:00,7060
 </buildStep>
 <buildStep step="CopyStandardHelpContent">
 Copying standard help content...
@@ -239,7 +239,7 @@ C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyle
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\styles\branding-zh-CN.css -&gt; C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Output\HtmlHelp1\styles\branding-zh-CN.css
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\styles\branding-zh-TW.css -&gt; C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Output\HtmlHelp1\styles\branding-zh-TW.css
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\styles\branding.css -&gt; C:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Output\HtmlHelp1\styles\branding.css
-    Last step completed in 00:00:00,2490
+    Last step completed in 00:00:00,1610
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContents">
 Generating HTML Help 1 table of contents file...
@@ -251,7 +251,7 @@ Generating HTML Help 1 index file...
 </buildStep>
 <buildStep step="GenerateHelpProject">
 Generating HTML Help 1 project file...
-    Last step completed in 00:00:00,0120
+    Last step completed in 00:00:00,0080
 </buildStep>
 <buildStep step="CompilingHelpFile">
 Compiling HTML Help 1 file...
@@ -266,7 +266,7 @@ Compiling HTML Help 1 file...
   
   
   
-  Compile time: 0 minutes, 2 seconds
+  Compile time: 0 minutes, 1 second
   
   138	Topics
   
@@ -280,19 +280,19 @@ Compiling HTML Help 1 file...
   
   
   
-  Created c:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Output\HtmlHelp1\Zenitel.Connect.RestApi.Sdk.chm, 189,997 bytes
+  Created c:\Projects\Connect Platform\Work\ZenitelConnectRestApiSdk\DOC\Help\Working\Output\HtmlHelp1\Zenitel.Connect.RestApi.Sdk.chm, 189,977 bytes
   
-  Compression decreased file by 1,019,235 bytes.
+  Compression decreased file by 1,019,255 bytes.
   
-    Last step completed in 00:00:04,8283
+    Last step completed in 00:00:02,7475
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00,1490
+    Last step completed in 00:00:00,1010
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 12/10/2022 10.56.33.  Total time: 00:00:31,7172
+Build completed successfully at 03/11/2022 10.07.38.  Total time: 00:00:14,5419
 
 </buildStep>
 </shfbBuild>

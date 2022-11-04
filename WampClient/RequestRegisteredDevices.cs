@@ -70,23 +70,47 @@ namespace Wamp.Client
 
         /// <summary>
         /// This method requests a list of queued calls registered at the Zenitel Connect Platform. The returned list may be filtered (reduced)
-        /// by specifying the filtering parameters. A filtering parameter not being used is specified as an empty string. 
+        /// by specifying the filtering parameter. A filtering parameter not being used is specified as an empty string. 
         /// </summary>
-        /// <param name="agent">Only return call queues handled by this agent.</param>
-        /// <param name="fromDirno">Only return call queues with calls from this directory number.</param>
         /// <param name="queueDirNo">Only return call queue with this directory number.</param>
         /// <returns>The method returns a list of call queues according to the filtering specified via the parameters.</returns>
         /***********************************************************************************************************************/
-        public List<wamp_call_queue_element> requestQueuedCalls(string agent, string fromDirno, string queueDirNo)
+        public List<wamp_call_leg_element> requestQueuedCalls(string queueDirNo)
         /***********************************************************************************************************************/
         {
-            object res = GET_calls_queued(agent, fromDirno, queueDirNo);
+            object res = GET_calls_queued(queueDirNo);
             string json_str = res.ToString();
             OnChildLogString?.Invoke(this, json_str);
 
-            List<wamp_call_queue_element> callQueuedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<wamp_call_queue_element>>(json_str);
+            List<wamp_call_leg_element> callQueuedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<wamp_call_leg_element>>(json_str);
             return callQueuedList;
         }
+
+        /// <summary>
+        /// This methods requests the Call Legs from the Zenitel Connect Platform. The returned list may be filtered by adding the following
+        /// parameters as filters
+        /// </summary>
+        /// <param name="fromDirNo"></param>
+        /// <param name="toDirNo"></param>
+        /// <param name="dirNo"></param>
+        /// <param name="legId"></param>
+        /// <param name="callId"></param>
+        /// <param name="State"></param>
+        /// <param name="legRole"></param>
+        /// <returns></returns>
+        /***********************************************************************************************************************/
+        public List<wamp_call_leg_element> requestCallLegs(string fromDirNo, string toDirNo, string dirNo, string legId,
+                                                                 string callId,    string State,   string legRole)
+        /***********************************************************************************************************************/
+        {
+            object res = GET_call_queue_legs(fromDirNo, toDirNo, dirNo, legId, callId, State, legRole);
+            string json_str = res.ToString();
+            OnChildLogString?.Invoke(this, json_str);
+
+            List<WampClient.wamp_call_leg_element> callQueueLegList = Newtonsoft.Json.JsonConvert.DeserializeObject<List< wamp_call_leg_element>>(json_str);
+            return callQueueLegList;
+        }
+
 
 
         /// <summary>
