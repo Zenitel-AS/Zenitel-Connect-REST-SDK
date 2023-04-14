@@ -86,10 +86,6 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.grpbxRegistratedDevices = new System.Windows.Forms.GroupBox();
             this.btnClearList = new System.Windows.Forms.Button();
             this.dgrd_Registrations = new System.Windows.Forms.DataGridView();
-            this.dgrdDirNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbxNetInterfaces = new System.Windows.Forms.GroupBox();
             this.btnClearNetInterfaces = new System.Windows.Forms.Button();
             this.dgrdNetInterfaces = new System.Windows.Forms.DataGridView();
@@ -108,6 +104,12 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdIP_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdDeviceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdDirNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbxAuthentication.SuspendLayout();
             this.gbxLogging.SuspendLayout();
             this.gbxSwaggerSystem.SuspendLayout();
@@ -144,9 +146,9 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxAuthentication.Controls.Add(this.edtPassword);
             this.gbxAuthentication.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbxAuthentication.Location = new System.Drawing.Point(24, 15);
-            this.gbxAuthentication.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbxAuthentication.Margin = new System.Windows.Forms.Padding(4);
             this.gbxAuthentication.Name = "gbxAuthentication";
-            this.gbxAuthentication.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbxAuthentication.Padding = new System.Windows.Forms.Padding(4);
             this.gbxAuthentication.Size = new System.Drawing.Size(1368, 185);
             this.gbxAuthentication.TabIndex = 39;
             this.gbxAuthentication.TabStop = false;
@@ -182,7 +184,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             this.edtWampRealm.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edtWampRealm.Location = new System.Drawing.Point(557, 75);
-            this.edtWampRealm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.edtWampRealm.Margin = new System.Windows.Forms.Padding(4);
             this.edtWampRealm.Name = "edtWampRealm";
             this.edtWampRealm.Size = new System.Drawing.Size(145, 27);
             this.edtWampRealm.TabIndex = 19;
@@ -226,7 +228,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.tbxConnectionStatus.Enabled = false;
             this.tbxConnectionStatus.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxConnectionStatus.Location = new System.Drawing.Point(1040, 76);
-            this.tbxConnectionStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbxConnectionStatus.Margin = new System.Windows.Forms.Padding(4);
             this.tbxConnectionStatus.Name = "tbxConnectionStatus";
             this.tbxConnectionStatus.Size = new System.Drawing.Size(145, 27);
             this.tbxConnectionStatus.TabIndex = 15;
@@ -236,7 +238,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             this.btnDisconnect.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDisconnect.Location = new System.Drawing.Point(1217, 101);
-            this.btnDisconnect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDisconnect.Margin = new System.Windows.Forms.Padding(4);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(131, 57);
             this.btnDisconnect.TabIndex = 1;
@@ -249,7 +251,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.btnConnect.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnConnect.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnect.Location = new System.Drawing.Point(1215, 32);
-            this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(4);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(133, 57);
             this.btnConnect.TabIndex = 0;
@@ -272,7 +274,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             this.edtConnectServerAddr.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edtConnectServerAddr.Location = new System.Drawing.Point(13, 75);
-            this.edtConnectServerAddr.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.edtConnectServerAddr.Margin = new System.Windows.Forms.Padding(4);
             this.edtConnectServerAddr.Name = "edtConnectServerAddr";
             this.edtConnectServerAddr.Size = new System.Drawing.Size(164, 27);
             this.edtConnectServerAddr.TabIndex = 4;
@@ -293,7 +295,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             this.edtUserName.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edtUserName.Location = new System.Drawing.Point(221, 75);
-            this.edtUserName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.edtUserName.Margin = new System.Windows.Forms.Padding(4);
             this.edtUserName.Name = "edtUserName";
             this.edtUserName.Size = new System.Drawing.Size(145, 27);
             this.edtUserName.TabIndex = 6;
@@ -313,7 +315,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             this.edtPassword.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edtPassword.Location = new System.Drawing.Point(387, 75);
-            this.edtPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.edtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.edtPassword.Name = "edtPassword";
             this.edtPassword.Size = new System.Drawing.Size(145, 27);
             this.edtPassword.TabIndex = 8;
@@ -412,7 +414,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnGETNetInterface
             // 
             this.btnGETNetInterface.Location = new System.Drawing.Point(27, 128);
-            this.btnGETNetInterface.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGETNetInterface.Margin = new System.Windows.Forms.Padding(4);
             this.btnGETNetInterface.Name = "btnGETNetInterface";
             this.btnGETNetInterface.Size = new System.Drawing.Size(147, 78);
             this.btnGETNetInterface.TabIndex = 3;
@@ -423,7 +425,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnGETDeviceAccounts
             // 
             this.btnGETDeviceAccounts.Location = new System.Drawing.Point(27, 34);
-            this.btnGETDeviceAccounts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGETDeviceAccounts.Margin = new System.Windows.Forms.Padding(4);
             this.btnGETDeviceAccounts.Name = "btnGETDeviceAccounts";
             this.btnGETDeviceAccounts.Size = new System.Drawing.Size(147, 78);
             this.btnGETDeviceAccounts.TabIndex = 2;
@@ -452,7 +454,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnGETCallLegs
             // 
             this.btnGETCallLegs.Location = new System.Drawing.Point(21, 308);
-            this.btnGETCallLegs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGETCallLegs.Margin = new System.Windows.Forms.Padding(4);
             this.btnGETCallLegs.Name = "btnGETCallLegs";
             this.btnGETCallLegs.Size = new System.Drawing.Size(157, 74);
             this.btnGETCallLegs.TabIndex = 44;
@@ -480,7 +482,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnPOSTCalls
             // 
             this.btnPOSTCalls.Location = new System.Drawing.Point(193, 18);
-            this.btnPOSTCalls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPOSTCalls.Margin = new System.Windows.Forms.Padding(4);
             this.btnPOSTCalls.Name = "btnPOSTCalls";
             this.btnPOSTCalls.Size = new System.Drawing.Size(157, 74);
             this.btnPOSTCalls.TabIndex = 15;
@@ -555,7 +557,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnGETCalls
             // 
             this.btnGETCalls.Location = new System.Drawing.Point(21, 213);
-            this.btnGETCalls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGETCalls.Margin = new System.Windows.Forms.Padding(4);
             this.btnGETCalls.Name = "btnGETCalls";
             this.btnGETCalls.Size = new System.Drawing.Size(157, 78);
             this.btnGETCalls.TabIndex = 4;
@@ -566,7 +568,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnDELETECallId
             // 
             this.btnDELETECallId.Location = new System.Drawing.Point(401, 308);
-            this.btnDELETECallId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDELETECallId.Margin = new System.Windows.Forms.Padding(4);
             this.btnDELETECallId.Name = "btnDELETECallId";
             this.btnDELETECallId.Size = new System.Drawing.Size(157, 78);
             this.btnDELETECallId.TabIndex = 36;
@@ -577,7 +579,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnDELETECalls
             // 
             this.btnDELETECalls.Location = new System.Drawing.Point(401, 213);
-            this.btnDELETECalls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDELETECalls.Margin = new System.Windows.Forms.Padding(4);
             this.btnDELETECalls.Name = "btnDELETECalls";
             this.btnDELETECalls.Size = new System.Drawing.Size(157, 78);
             this.btnDELETECalls.TabIndex = 16;
@@ -608,7 +610,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnPOSTDeviceGPO
             // 
             this.btnPOSTDeviceGPO.Location = new System.Drawing.Point(24, 30);
-            this.btnPOSTDeviceGPO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPOSTDeviceGPO.Margin = new System.Windows.Forms.Padding(4);
             this.btnPOSTDeviceGPO.Name = "btnPOSTDeviceGPO";
             this.btnPOSTDeviceGPO.Size = new System.Drawing.Size(171, 78);
             this.btnPOSTDeviceGPO.TabIndex = 39;
@@ -659,7 +661,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnGETDeviceGPIOs
             // 
             this.btnGETDeviceGPIOs.Location = new System.Drawing.Point(24, 230);
-            this.btnGETDeviceGPIOs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGETDeviceGPIOs.Margin = new System.Windows.Forms.Padding(4);
             this.btnGETDeviceGPIOs.Name = "btnGETDeviceGPIOs";
             this.btnGETDeviceGPIOs.Size = new System.Drawing.Size(171, 78);
             this.btnGETDeviceGPIOs.TabIndex = 4;
@@ -669,7 +671,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnGETDeviceGPOs
             // 
             this.btnGETDeviceGPOs.Location = new System.Drawing.Point(24, 130);
-            this.btnGETDeviceGPOs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGETDeviceGPOs.Margin = new System.Windows.Forms.Padding(4);
             this.btnGETDeviceGPOs.Name = "btnGETDeviceGPOs";
             this.btnGETDeviceGPOs.Size = new System.Drawing.Size(171, 78);
             this.btnGETDeviceGPOs.TabIndex = 3;
@@ -783,7 +785,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnClearList
             // 
             this.btnClearList.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearList.Location = new System.Drawing.Point(877, 250);
+            this.btnClearList.Location = new System.Drawing.Point(883, 264);
             this.btnClearList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(109, 39);
@@ -801,6 +803,8 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrd_Registrations.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dgrd_Registrations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgrd_Registrations.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgrdIP_Address,
+            this.dgrdDeviceType,
             this.dgrdDirNo,
             this.dgrdName,
             this.dgrdLocation,
@@ -812,37 +816,8 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrd_Registrations.RowHeadersWidth = 51;
             this.dgrd_Registrations.RowTemplate.Height = 24;
             this.dgrd_Registrations.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgrd_Registrations.Size = new System.Drawing.Size(825, 265);
+            this.dgrd_Registrations.Size = new System.Drawing.Size(971, 223);
             this.dgrd_Registrations.TabIndex = 16;
-            // 
-            // dgrdDirNo
-            // 
-            this.dgrdDirNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dgrdDirNo.HeaderText = "Dir. No";
-            this.dgrdDirNo.MinimumWidth = 60;
-            this.dgrdDirNo.Name = "dgrdDirNo";
-            this.dgrdDirNo.Width = 92;
-            // 
-            // dgrdName
-            // 
-            this.dgrdName.HeaderText = "Name";
-            this.dgrdName.MinimumWidth = 120;
-            this.dgrdName.Name = "dgrdName";
-            this.dgrdName.Width = 120;
-            // 
-            // dgrdLocation
-            // 
-            this.dgrdLocation.HeaderText = "Location";
-            this.dgrdLocation.MinimumWidth = 120;
-            this.dgrdLocation.Name = "dgrdLocation";
-            this.dgrdLocation.Width = 120;
-            // 
-            // dgrdState
-            // 
-            this.dgrdState.HeaderText = "State";
-            this.dgrdState.MinimumWidth = 180;
-            this.dgrdState.Name = "dgrdState";
-            this.dgrdState.Width = 180;
             // 
             // gbxNetInterfaces
             // 
@@ -853,7 +828,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxNetInterfaces.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbxNetInterfaces.Name = "gbxNetInterfaces";
             this.gbxNetInterfaces.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gbxNetInterfaces.Size = new System.Drawing.Size(1008, 194);
+            this.gbxNetInterfaces.Size = new System.Drawing.Size(1008, 243);
             this.gbxNetInterfaces.TabIndex = 49;
             this.gbxNetInterfaces.TabStop = false;
             this.gbxNetInterfaces.Text = "Net Interfaces";
@@ -861,7 +836,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // btnClearNetInterfaces
             // 
             this.btnClearNetInterfaces.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearNetInterfaces.Location = new System.Drawing.Point(876, 138);
+            this.btnClearNetInterfaces.Location = new System.Drawing.Point(882, 187);
             this.btnClearNetInterfaces.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClearNetInterfaces.Name = "btnClearNetInterfaces";
             this.btnClearNetInterfaces.Size = new System.Drawing.Size(109, 39);
@@ -889,7 +864,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrdNetInterfaces.RowHeadersWidth = 51;
             this.dgrdNetInterfaces.RowTemplate.Height = 24;
             this.dgrdNetInterfaces.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgrdNetInterfaces.Size = new System.Drawing.Size(824, 148);
+            this.dgrdNetInterfaces.Size = new System.Drawing.Size(970, 137);
             this.dgrdNetInterfaces.TabIndex = 16;
             // 
             // NetMACaddr
@@ -985,7 +960,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxQueuedCalls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbxQueuedCalls.Name = "gbxQueuedCalls";
             this.gbxQueuedCalls.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gbxQueuedCalls.Size = new System.Drawing.Size(843, 215);
+            this.gbxQueuedCalls.Size = new System.Drawing.Size(843, 264);
             this.gbxQueuedCalls.TabIndex = 51;
             this.gbxQueuedCalls.TabStop = false;
             this.gbxQueuedCalls.Text = "Queued Calls";
@@ -1009,7 +984,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrdQueuedCalls.RowHeadersWidth = 51;
             this.dgrdQueuedCalls.RowTemplate.Height = 24;
             this.dgrdQueuedCalls.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgrdQueuedCalls.Size = new System.Drawing.Size(803, 158);
+            this.dgrdQueuedCalls.Size = new System.Drawing.Size(803, 206);
             this.dgrdQueuedCalls.TabIndex = 17;
             // 
             // dataGridViewTextBoxColumn1
@@ -1040,11 +1015,54 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 300;
             // 
+            // dgrdIP_Address
+            // 
+            this.dgrdIP_Address.HeaderText = "IP-Address";
+            this.dgrdIP_Address.MinimumWidth = 6;
+            this.dgrdIP_Address.Name = "dgrdIP_Address";
+            this.dgrdIP_Address.Width = 125;
+            // 
+            // dgrdDeviceType
+            // 
+            this.dgrdDeviceType.HeaderText = "Device Type";
+            this.dgrdDeviceType.MinimumWidth = 100;
+            this.dgrdDeviceType.Name = "dgrdDeviceType";
+            this.dgrdDeviceType.Width = 130;
+            // 
+            // dgrdDirNo
+            // 
+            this.dgrdDirNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dgrdDirNo.HeaderText = "Dir. No";
+            this.dgrdDirNo.MinimumWidth = 60;
+            this.dgrdDirNo.Name = "dgrdDirNo";
+            this.dgrdDirNo.Width = 92;
+            // 
+            // dgrdName
+            // 
+            this.dgrdName.HeaderText = "Name";
+            this.dgrdName.MinimumWidth = 120;
+            this.dgrdName.Name = "dgrdName";
+            this.dgrdName.Width = 120;
+            // 
+            // dgrdLocation
+            // 
+            this.dgrdLocation.HeaderText = "Location";
+            this.dgrdLocation.MinimumWidth = 120;
+            this.dgrdLocation.Name = "dgrdLocation";
+            this.dgrdLocation.Width = 120;
+            // 
+            // dgrdState
+            // 
+            this.dgrdState.HeaderText = "State";
+            this.dgrdState.MinimumWidth = 180;
+            this.dgrdState.Name = "dgrdState";
+            this.dgrdState.Width = 180;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1913, 1177);
+            this.ClientSize = new System.Drawing.Size(1913, 1264);
             this.Controls.Add(this.gbxQueuedCalls);
             this.Controls.Add(this.gbxActiveCalls);
             this.Controls.Add(this.gbxNetInterfaces);
@@ -1133,10 +1151,6 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.GroupBox grpbxRegistratedDevices;
         private System.Windows.Forms.Button btnClearList;
         private System.Windows.Forms.DataGridView dgrd_Registrations;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdDirNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdLocation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdState;
         private System.Windows.Forms.GroupBox gbxNetInterfaces;
         private System.Windows.Forms.Button btnClearNetInterfaces;
         private System.Windows.Forms.DataGridView dgrdNetInterfaces;
@@ -1163,6 +1177,12 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdIP_Address;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdDeviceType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdDirNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgrdState;
     }
 }
 

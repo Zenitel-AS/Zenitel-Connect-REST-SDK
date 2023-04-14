@@ -876,10 +876,11 @@ namespace Zenitel.Connect.RestApi.Sdk
                         addToLog(txt);
                         foreach (restapi_device_registration_element dev in registeredDevices)
                         {
-                            txt = ("Dir-no: " + dev.dirno + ". Location: " + dev.location + ". Name: " + dev.name + ". Status: " + dev.state);
+                            txt = ("IP-Address: " + dev.device_ip + "Device-type: " + dev.device_type + "Dir-no: " + dev.dirno +
+                                   ". Location: " + dev.location + ". Name: " + dev.name + ". Status: " + dev.state);
                             addToLog(txt);
 
-                            string[] row = { dev.dirno, dev.name, dev.location, dev.state };
+                            string[] row = { dev.device_ip, dev.device_type, dev.dirno, dev.name, dev.location, dev.state };
                             dgrd_Registrations.Rows.Add(row);
                         }
                     }

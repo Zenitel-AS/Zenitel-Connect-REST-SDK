@@ -20,6 +20,16 @@ namespace Rest.Api.Client
     public class restapi_device_registration_element
     {
         /// <summary>
+        /// Device_ip is the IP-Address of the device.
+        /// </summary>
+        public string device_ip { get; set; }
+
+        /// <summary>
+        /// Device_type is the HW-type of the device.
+        /// </summary>
+        public string device_type { get; set; }
+
+        /// <summary>
         /// Dirno is the directory number of the device.
         /// </summary>
         public string dirno { get; set; }
