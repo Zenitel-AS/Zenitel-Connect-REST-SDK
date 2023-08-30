@@ -1644,5 +1644,83 @@ namespace Zenitel.Connect.RestApi.Sdk
 
         }
 
+       
+        /***********************************************************************************************************************/
+        private void btnPOSTOpenDoor_Click(object sender, EventArgs e)
+        /***********************************************************************************************************************/
+        {
+            try
+            {
+                if (wampClient.IsConnected)
+                {
+                    string aSub = tbxASubscriber.Text;
+
+                    WampClient.wamp_response wampResp = wampClient.PostOpenDoor(aSub);
+
+                    addToLog("btnPOSTOpenDoor_Click: Wamp Response  = " + wampResp.WampResponse.ToString());
+                    addToLog("btnPOSTOpenDoor_Click: CompletionText = " + wampResp.CompletionText);
+                }
+                else
+                {
+                    MessageBox.Show("WAMP Connection not established.");
+                }
+            }
+            catch (Exception ex)
+            {
+                string txt = "Exception in btnPOSTOpenDoor_Click: " + ex.ToString();
+                addToLog(txt);
+            }
+
+        }
+
+
+        /***********************************************************************************************************************/
+        private async void btnRegisterCalleeServices_Click(object sender, EventArgs e)
+        /***********************************************************************************************************************/
+        {
+            try
+            {
+                if (wampClient.IsConnected)
+                {
+                    addToLog("btnRegisterCalleeServices_Click.");
+                    await wampClient.RegisterCalleeServices();
+                    addToLog("btnRegisterCalleeServices_Click completed.");
+                }
+                else
+                {
+                    MessageBox.Show("WAMP is NOT connected.");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string txt = "btnRegisterCalleeServices_Click: " + ex.ToString();
+                addToLog(txt);
+            }
+        }
+
+
+        /***********************************************************************************************************************/
+        private void btnNewUCTTime_Click(object sender, EventArgs e)
+        /***********************************************************************************************************************/
+        {
+            try
+            {
+                if (wampClient.IsConnected)
+                {
+                    wampClient.Publish_NewUCTTime();
+                }
+                else
+                {
+                    MessageBox.Show("WAMP is NOT connected.");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string txt = "btnNewUCTTime_Clic: " + ex.ToString();
+                addToLog(txt);
+            }
+        }
     }
 }

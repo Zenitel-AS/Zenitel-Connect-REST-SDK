@@ -60,7 +60,7 @@ namespace Wamp.Client
                         else
                         {
                             loopCount++;
-                            if (loopCount > 300) cont = false;
+                            if (loopCount > 30) cont = false;
                         }
                     }
 
@@ -80,7 +80,7 @@ namespace Wamp.Client
                     else
                     {
                         wampResp.WampResponse = ResponseType.WampNoResponce;
-                        wampResp.CompletionText = "DeleteCalls failed. No response from WAMP.";
+                        wampResp.CompletionText = "DeleteCalls. No response from WAMP.";
                     }
                 }
 

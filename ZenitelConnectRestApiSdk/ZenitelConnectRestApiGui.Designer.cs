@@ -86,6 +86,12 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.grpbxRegistratedDevices = new System.Windows.Forms.GroupBox();
             this.btnClearList = new System.Windows.Forms.Button();
             this.dgrd_Registrations = new System.Windows.Forms.DataGridView();
+            this.dgrdIP_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdDeviceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdDirNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgrdState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbxNetInterfaces = new System.Windows.Forms.GroupBox();
             this.btnClearNetInterfaces = new System.Windows.Forms.Button();
             this.dgrdNetInterfaces = new System.Windows.Forms.DataGridView();
@@ -104,12 +110,11 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdIP_Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdDeviceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdDirNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgrdState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gbxRegisterService = new System.Windows.Forms.GroupBox();
+            this.btnRegisterCalleeServices = new System.Windows.Forms.Button();
+            this.btnPOSTOpenDoor = new System.Windows.Forms.Button();
+            this.grpbxPublishEvent = new System.Windows.Forms.GroupBox();
+            this.btnNewUCTTime = new System.Windows.Forms.Button();
             this.gbxAuthentication.SuspendLayout();
             this.gbxLogging.SuspendLayout();
             this.gbxSwaggerSystem.SuspendLayout();
@@ -125,6 +130,8 @@ namespace Zenitel.Connect.RestApi.Sdk
             ((System.ComponentModel.ISupportInitialize)(this.dgrdActiveCalls)).BeginInit();
             this.gbxQueuedCalls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrdQueuedCalls)).BeginInit();
+            this.gbxRegisterService.SuspendLayout();
+            this.grpbxPublishEvent.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbxAuthentication
@@ -406,7 +413,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxSwaggerSystem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbxSwaggerSystem.Name = "gbxSwaggerSystem";
             this.gbxSwaggerSystem.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gbxSwaggerSystem.Size = new System.Drawing.Size(205, 398);
+            this.gbxSwaggerSystem.Size = new System.Drawing.Size(205, 231);
             this.gbxSwaggerSystem.TabIndex = 44;
             this.gbxSwaggerSystem.TabStop = false;
             this.gbxSwaggerSystem.Text = "System";
@@ -446,7 +453,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.gbxCallControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbxCallControl.Name = "gbxCallControl";
             this.gbxCallControl.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gbxCallControl.Size = new System.Drawing.Size(776, 395);
+            this.gbxCallControl.Size = new System.Drawing.Size(556, 395);
             this.gbxCallControl.TabIndex = 45;
             this.gbxCallControl.TabStop = false;
             this.gbxCallControl.Text = "Call Handling";
@@ -464,6 +471,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             // grpbxPOSTCalls
             // 
+            this.grpbxPOSTCalls.Controls.Add(this.btnPOSTOpenDoor);
             this.grpbxPOSTCalls.Controls.Add(this.btnPOSTCalls);
             this.grpbxPOSTCalls.Controls.Add(this.cmbxCallAction);
             this.grpbxPOSTCalls.Controls.Add(this.lblASubscriber);
@@ -475,13 +483,13 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.grpbxPOSTCalls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpbxPOSTCalls.Name = "grpbxPOSTCalls";
             this.grpbxPOSTCalls.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpbxPOSTCalls.Size = new System.Drawing.Size(537, 167);
+            this.grpbxPOSTCalls.Size = new System.Drawing.Size(517, 167);
             this.grpbxPOSTCalls.TabIndex = 42;
             this.grpbxPOSTCalls.TabStop = false;
             // 
             // btnPOSTCalls
             // 
-            this.btnPOSTCalls.Location = new System.Drawing.Point(193, 18);
+            this.btnPOSTCalls.Location = new System.Drawing.Point(173, 20);
             this.btnPOSTCalls.Margin = new System.Windows.Forms.Padding(4);
             this.btnPOSTCalls.Name = "btnPOSTCalls";
             this.btnPOSTCalls.Size = new System.Drawing.Size(157, 74);
@@ -493,7 +501,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // cmbxCallAction
             // 
             this.cmbxCallAction.FormattingEnabled = true;
-            this.cmbxCallAction.Location = new System.Drawing.Point(193, 124);
+            this.cmbxCallAction.Location = new System.Drawing.Point(173, 126);
             this.cmbxCallAction.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbxCallAction.Name = "cmbxCallAction";
             this.cmbxCallAction.Size = new System.Drawing.Size(157, 27);
@@ -511,7 +519,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // lblAction
             // 
             this.lblAction.AutoSize = true;
-            this.lblAction.Location = new System.Drawing.Point(189, 103);
+            this.lblAction.Location = new System.Drawing.Point(169, 105);
             this.lblAction.Name = "lblAction";
             this.lblAction.Size = new System.Drawing.Size(65, 19);
             this.lblAction.TabIndex = 40;
@@ -567,7 +575,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             // btnDELETECallId
             // 
-            this.btnDELETECallId.Location = new System.Drawing.Point(401, 308);
+            this.btnDELETECallId.Location = new System.Drawing.Point(194, 304);
             this.btnDELETECallId.Margin = new System.Windows.Forms.Padding(4);
             this.btnDELETECallId.Name = "btnDELETECallId";
             this.btnDELETECallId.Size = new System.Drawing.Size(157, 78);
@@ -578,7 +586,7 @@ namespace Zenitel.Connect.RestApi.Sdk
             // 
             // btnDELETECalls
             // 
-            this.btnDELETECalls.Location = new System.Drawing.Point(401, 213);
+            this.btnDELETECalls.Location = new System.Drawing.Point(194, 209);
             this.btnDELETECalls.Margin = new System.Windows.Forms.Padding(4);
             this.btnDELETECalls.Name = "btnDELETECalls";
             this.btnDELETECalls.Size = new System.Drawing.Size(157, 78);
@@ -819,6 +827,49 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dgrd_Registrations.Size = new System.Drawing.Size(971, 223);
             this.dgrd_Registrations.TabIndex = 16;
             // 
+            // dgrdIP_Address
+            // 
+            this.dgrdIP_Address.HeaderText = "IP-Address";
+            this.dgrdIP_Address.MinimumWidth = 6;
+            this.dgrdIP_Address.Name = "dgrdIP_Address";
+            this.dgrdIP_Address.Width = 125;
+            // 
+            // dgrdDeviceType
+            // 
+            this.dgrdDeviceType.HeaderText = "Device Type";
+            this.dgrdDeviceType.MinimumWidth = 100;
+            this.dgrdDeviceType.Name = "dgrdDeviceType";
+            this.dgrdDeviceType.Width = 130;
+            // 
+            // dgrdDirNo
+            // 
+            this.dgrdDirNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dgrdDirNo.HeaderText = "Dir. No";
+            this.dgrdDirNo.MinimumWidth = 60;
+            this.dgrdDirNo.Name = "dgrdDirNo";
+            this.dgrdDirNo.Width = 92;
+            // 
+            // dgrdName
+            // 
+            this.dgrdName.HeaderText = "Name";
+            this.dgrdName.MinimumWidth = 120;
+            this.dgrdName.Name = "dgrdName";
+            this.dgrdName.Width = 120;
+            // 
+            // dgrdLocation
+            // 
+            this.dgrdLocation.HeaderText = "Location";
+            this.dgrdLocation.MinimumWidth = 120;
+            this.dgrdLocation.Name = "dgrdLocation";
+            this.dgrdLocation.Width = 120;
+            // 
+            // dgrdState
+            // 
+            this.dgrdState.HeaderText = "State";
+            this.dgrdState.MinimumWidth = 180;
+            this.dgrdState.Name = "dgrdState";
+            this.dgrdState.Width = 180;
+            // 
             // gbxNetInterfaces
             // 
             this.gbxNetInterfaces.Controls.Add(this.btnClearNetInterfaces);
@@ -1015,54 +1066,74 @@ namespace Zenitel.Connect.RestApi.Sdk
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 300;
             // 
-            // dgrdIP_Address
+            // gbxRegisterService
             // 
-            this.dgrdIP_Address.HeaderText = "IP-Address";
-            this.dgrdIP_Address.MinimumWidth = 6;
-            this.dgrdIP_Address.Name = "dgrdIP_Address";
-            this.dgrdIP_Address.Width = 125;
+            this.gbxRegisterService.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.gbxRegisterService.Controls.Add(this.btnRegisterCalleeServices);
+            this.gbxRegisterService.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbxRegisterService.Location = new System.Drawing.Point(24, 472);
+            this.gbxRegisterService.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gbxRegisterService.Name = "gbxRegisterService";
+            this.gbxRegisterService.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gbxRegisterService.Size = new System.Drawing.Size(205, 139);
+            this.gbxRegisterService.TabIndex = 52;
+            this.gbxRegisterService.TabStop = false;
+            this.gbxRegisterService.Text = "RegisterService";
             // 
-            // dgrdDeviceType
+            // btnRegisterCalleeServices
             // 
-            this.dgrdDeviceType.HeaderText = "Device Type";
-            this.dgrdDeviceType.MinimumWidth = 100;
-            this.dgrdDeviceType.Name = "dgrdDeviceType";
-            this.dgrdDeviceType.Width = 130;
+            this.btnRegisterCalleeServices.Location = new System.Drawing.Point(21, 26);
+            this.btnRegisterCalleeServices.Margin = new System.Windows.Forms.Padding(4);
+            this.btnRegisterCalleeServices.Name = "btnRegisterCalleeServices";
+            this.btnRegisterCalleeServices.Size = new System.Drawing.Size(159, 83);
+            this.btnRegisterCalleeServices.TabIndex = 2;
+            this.btnRegisterCalleeServices.Text = "Provide\r\nCallee Services\r\n(UCT Time)";
+            this.btnRegisterCalleeServices.UseVisualStyleBackColor = true;
+            this.btnRegisterCalleeServices.Click += new System.EventHandler(this.btnRegisterCalleeServices_Click);
             // 
-            // dgrdDirNo
+            // btnPOSTOpenDoor
             // 
-            this.dgrdDirNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dgrdDirNo.HeaderText = "Dir. No";
-            this.dgrdDirNo.MinimumWidth = 60;
-            this.dgrdDirNo.Name = "dgrdDirNo";
-            this.dgrdDirNo.Width = 92;
+            this.btnPOSTOpenDoor.Location = new System.Drawing.Point(347, 19);
+            this.btnPOSTOpenDoor.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPOSTOpenDoor.Name = "btnPOSTOpenDoor";
+            this.btnPOSTOpenDoor.Size = new System.Drawing.Size(157, 74);
+            this.btnPOSTOpenDoor.TabIndex = 43;
+            this.btnPOSTOpenDoor.Text = "POST\r\n Open Door";
+            this.btnPOSTOpenDoor.UseVisualStyleBackColor = true;
+            this.btnPOSTOpenDoor.Click += new System.EventHandler(this.btnPOSTOpenDoor_Click);
             // 
-            // dgrdName
+            // grpbxPublishEvent
             // 
-            this.dgrdName.HeaderText = "Name";
-            this.dgrdName.MinimumWidth = 120;
-            this.dgrdName.Name = "dgrdName";
-            this.dgrdName.Width = 120;
+            this.grpbxPublishEvent.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.grpbxPublishEvent.Controls.Add(this.btnNewUCTTime);
+            this.grpbxPublishEvent.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpbxPublishEvent.Location = new System.Drawing.Point(831, 226);
+            this.grpbxPublishEvent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpbxPublishEvent.Name = "grpbxPublishEvent";
+            this.grpbxPublishEvent.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpbxPublishEvent.Size = new System.Drawing.Size(202, 139);
+            this.grpbxPublishEvent.TabIndex = 47;
+            this.grpbxPublishEvent.TabStop = false;
+            this.grpbxPublishEvent.Text = "Publish Event";
             // 
-            // dgrdLocation
+            // btnNewUCTTime
             // 
-            this.dgrdLocation.HeaderText = "Location";
-            this.dgrdLocation.MinimumWidth = 120;
-            this.dgrdLocation.Name = "dgrdLocation";
-            this.dgrdLocation.Width = 120;
-            // 
-            // dgrdState
-            // 
-            this.dgrdState.HeaderText = "State";
-            this.dgrdState.MinimumWidth = 180;
-            this.dgrdState.Name = "dgrdState";
-            this.dgrdState.Width = 180;
+            this.btnNewUCTTime.Location = new System.Drawing.Point(13, 28);
+            this.btnNewUCTTime.Margin = new System.Windows.Forms.Padding(4);
+            this.btnNewUCTTime.Name = "btnNewUCTTime";
+            this.btnNewUCTTime.Size = new System.Drawing.Size(164, 83);
+            this.btnNewUCTTime.TabIndex = 2;
+            this.btnNewUCTTime.Text = "EVENT\r\nNew UCT Time";
+            this.btnNewUCTTime.UseVisualStyleBackColor = true;
+            this.btnNewUCTTime.Click += new System.EventHandler(this.btnNewUCTTime_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1913, 1264);
+            this.Controls.Add(this.grpbxPublishEvent);
+            this.Controls.Add(this.gbxRegisterService);
             this.Controls.Add(this.gbxQueuedCalls);
             this.Controls.Add(this.gbxActiveCalls);
             this.Controls.Add(this.gbxNetInterfaces);
@@ -1097,6 +1168,8 @@ namespace Zenitel.Connect.RestApi.Sdk
             ((System.ComponentModel.ISupportInitialize)(this.dgrdActiveCalls)).EndInit();
             this.gbxQueuedCalls.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgrdQueuedCalls)).EndInit();
+            this.gbxRegisterService.ResumeLayout(false);
+            this.grpbxPublishEvent.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1183,6 +1256,11 @@ namespace Zenitel.Connect.RestApi.Sdk
         private System.Windows.Forms.DataGridViewTextBoxColumn dgrdName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgrdLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgrdState;
+        private System.Windows.Forms.Button btnPOSTOpenDoor;
+        private System.Windows.Forms.GroupBox gbxRegisterService;
+        private System.Windows.Forms.Button btnRegisterCalleeServices;
+        private System.Windows.Forms.GroupBox grpbxPublishEvent;
+        private System.Windows.Forms.Button btnNewUCTTime;
     }
 }
 
