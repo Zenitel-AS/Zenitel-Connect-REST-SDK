@@ -225,6 +225,11 @@ namespace Rest.Api.Client
         /// </summary>
         public string action { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool verbose { get; set; }
+
 
         /// <summary>
         /// This is the constructor of the restapi_POST_calls_element class
@@ -237,6 +242,7 @@ namespace Rest.Api.Client
             from_dirno = fromDirno;
             to_dirno = toDirNo;
             action = act;
+            verbose = true;
         }
     }
 
@@ -493,7 +499,7 @@ namespace Rest.Api.Client
         private const string DeleteRestApiCalls = "api/calls";
         private const string DeleteRestApiCallsCallId = "api/calls/call/";
         private const string GetRestApiQueues = "api/queues";
-        public const string  GetRestApiCallLegs = "api/call_legs";
+        private const string  GetRestApiCallLegs = "api/call_legs";
 
 
         // DEVICE

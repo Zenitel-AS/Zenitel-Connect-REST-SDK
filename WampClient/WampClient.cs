@@ -134,6 +134,22 @@ namespace Wamp.Client
         /// <summary>Send dialling digit from station.</summary>
         public const string PostWampDevicesDeviceIdKey = "com.zenitel.devices.device.key.post";
 
+        /// <summary>Send open door request from station.</summary>
+        public const string PostWampOpenDoor = "com.zenitel.calls.call.open_door.post";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        // Provided services
+        public const string Get_UCT_Time   = "com.zenitel.system.get_uct_time";
+
+
+        // Published events
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string UCT_Time_event = "com.zenitel.system.uct_time";
+
 
         private Timer _reconnectTimer;
 

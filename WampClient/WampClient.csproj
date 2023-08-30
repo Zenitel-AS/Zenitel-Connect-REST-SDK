@@ -50,6 +50,9 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Zenitel_logo_I.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -203,6 +206,9 @@
     <Compile Include="PostCalls.cs" />
     <Compile Include="PostDeviceGPO.cs" />
     <Compile Include="PostDeviceKey.cs" />
+    <Compile Include="PostDeviceOpenDoor.cs" />
+    <Compile Include="PublishEvent.cs" />
+    <Compile Include="RegisterCalleeServices.cs" />
     <Compile Include="TraceCallLegStatusEvent.cs" />
     <Compile Include="TraceCallStatusEvent.cs" />
     <Compile Include="RequestRegisteredDevices.cs" />
@@ -219,6 +225,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Zenitel_logo_I.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -37,6 +37,7 @@ namespace Wamp.Client
                 argumentsKeywords["from_dirno"] = fromDirNo;
                 argumentsKeywords["to_dirno"]   = toDirNo;
                 argumentsKeywords["action"]     = action;
+                argumentsKeywords["verbose"]    = true;
 
                 RPCCallback rpcCallback = new RPCCallback();
 
@@ -61,7 +62,7 @@ namespace Wamp.Client
                     else
                     {
                         loopCount++;
-                        if (loopCount > 300) cont = false;
+                        if (loopCount > 30) cont = false;
                     }
                 }
 
@@ -81,7 +82,7 @@ namespace Wamp.Client
                 else
                 {
                     wampResp.WampResponse = ResponseType.WampNoResponce;
-                    wampResp.CompletionText = "PostCalls failed. No response from WAMP.";
+                    wampResp.CompletionText = "PostCalls. No response from WAMP.";
                 }
             }
             catch (Exception ex)
