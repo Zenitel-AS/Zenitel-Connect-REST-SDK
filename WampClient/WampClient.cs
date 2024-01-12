@@ -10,6 +10,7 @@ using WampSharp.V2;
 using WampSharp.V2.Client;
 using WampSharp.V2.Fluent;
 using WampSharp.V2.Realm;
+using System.Security.Authentication;
 
 
 namespace Wamp.Client
@@ -294,6 +295,8 @@ namespace Wamp.Client
                         rq.Headers.Add("Authorization", "Basic " + encoded);
 
                         ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateRemoteCertificate);
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
 
                         HttpWebResponse res = (HttpWebResponse)rq.GetResponse();
                         if (res.StatusCode == HttpStatusCode.OK)
@@ -307,13 +310,15 @@ namespace Wamp.Client
                                 SetConnectState(false, "null result");
                             }
 
-                            if (string.IsNullOrEmpty(json_result.access_token))
+                            else if (string.IsNullOrEmpty(json_result.access_token))
                             {
                                 SetConnectState(false, "empty token");
                             }
-
-                            SetConnectState(true, null, json_result.access_token);
-
+                            else
+                            {
+                                OnChildLogString?.Invoke(this, "Access Token: " + json_result.access_token);
+                                SetConnectState(true, null, json_result.access_token);
+                            }
                         }
                         else
                         {
@@ -408,13 +413,19 @@ namespace Wamp.Client
                 var stx = factory
                     .ConnectToRealm(WampRealm)
                     .WebSocket4NetTransport(WampUrl)
+
+                    .SetSecurityOptions(o => {
+                        o.EnabledSslProtocols = SslProtocols.Tls13 | SslProtocols.Tls12 | SslProtocols.Tls11 | SslProtocols.Tls | SslProtocols.Ssl3 | SslProtocols.Ssl2;
+                        o.AllowCertificateChainErrors = true;
+                        o.AllowNameMismatchCertificate = true;
+                        o.AllowUnstrustedCertificate = true;
+                    })
+
                     .JsonSerialization()
                     .Authenticator(_wampAuthenticator);
 
                 // build channel
                 _wampChannel = stx.Build();
-
-                ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateRemoteCertificate);
             }
             else
             {
